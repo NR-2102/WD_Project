@@ -1,1 +1,1 @@
-# WD_Project
+Building E-commerce website using Django.
