@@ -1,0 +1,51 @@
+{%load static%}
+<div class="navbar">
+
+    <div class="nav-logo border">
+        <div class="logo">
+            <img src="https://imgs.search.brave.com/jDHcCUZdjnL1xjLmTRrllqTavLWDhon_1f0SboHTFxc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aGF0Y2h3aXNlLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/Mi8wNS9hbWF6b24t/bG9nby0xMDI0eDY4/My5wbmctMS53ZWJw"
+                alt="Amazon Logo">
+        </div>
+    </div>
+
+    <div class="nav-address border">
+        <p class="add-first">Deliver to</p>
+        <div class="add-icon">
+            <i class="fa-solid fa-location-dot"></i>
+            <p class="add-sec">India</p>
+        </div>
+    </div>
+
+    <div class="nav-search">
+        <select class="search-select">
+            <option>All</option>
+        </select>
+        <input type="text" placeholder="Search Amazon" class="search-input">
+        <div class="search-icon">
+            <i class="fa-solid  fa-magnifying-glass"></i>
+        </div>
+    </div>
+    <div class="region border">
+        <img src="{%static 'assets/flag2.png'%}" alt="Error..">
+        <p>EN</p>
+        <i class="fa-solid fa-angle-down"></i>
+
+    </div>
+{% if user.is_aunthenticated%}
+    <div class="nav-signin border">
+        <p class="nav-sec"><a href="{%url 'logout'%}">Logout</a><i class="fa-solid fa-angle-down"></i></p>
+{% else %}
+        <p><a href="{%url 'login'%}">Hello, Sign in</a></p>
+    </div>
+{% endif %}
+
+    <div class="nav-return border">
+        <p><span>Returns </span></p>
+        <p class="nav-sec"> & Orders</p>
+    </div>
+    <div class="nav-cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Cart
+    </div>
+
+</div>
