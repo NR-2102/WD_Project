@@ -12,8 +12,8 @@
   color: white;
   max-width: 100%;
   align-items: center;
-  justify-content: space-evenly;
-  
+  justify-content: space-between;
+  padding: 0 20px;
 }
 .flex{
   display: flex;
@@ -524,6 +524,138 @@ body {
   font-weight: bold;
   padding-left: 15px;
   padding-top: 10px;
+}
+
+.nav-return {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    height: 100%;
+}
+
+.nav-return p {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+}
+
+.nav-cart {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 10px;
+    height: 100%;
+}
+
+.nav-cart i {
+    font-size: 20px;
+}
+
+.nav-cart span {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.nav-signin {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    height: 100%;
+}
+
+.nav-signin p {
+    margin: 0;
+}
+
+.nav-signin a {
+    color: white;
+    text-decoration: none;
+}
+
+.message-container {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    max-width: 600px;
+    width: 90%;
+}
+
+.message {
+    position: relative;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    animation: slideIn 0.3s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    border: 1px solid #ddd;
+}
+
+.message-success {
+    border-left: 4px solid #067d62;
+    color: #067d62;
+}
+
+.message-error {
+    border-left: 4px solid #c40000;
+    color: #c40000;
+}
+
+.message-warning {
+    border-left: 4px solid #e47911;
+    color: #e47911;
+}
+
+.message-info {
+    border-left: 4px solid #0066c0;
+    color: #0066c0;
+}
+
+.message-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.message-icon {
+    font-size: 18px;
+}
+
+.message-close {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+    margin-left: 10px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.message-close:hover {
+    opacity: 1;
+    color: #000;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 

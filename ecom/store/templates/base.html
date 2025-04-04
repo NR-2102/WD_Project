@@ -15,17 +15,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-     {% include 'navbar.html' %} 
-    {% if messages %}
-        {% for message in messages %}
-    <div class="alert alert-warning alert dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-        {% endfor %}
-    {% endif %} 
+    {% include 'navbar.html' %}
     <header>
-        
         <div class="panel">
             <div class="panel-all">
                 <i class="fa-solid fa-bars"></i>

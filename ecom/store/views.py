@@ -16,9 +16,9 @@ def deals(request):
 
 def login_user(request):
     if request.method == 'POST':
-        email = request.POST.get('email')  # Get email from the POST request
+        email = request.POST.get('email')  # email from the POST request
         password = request.POST.get('password')
-        user = authenticate(request, username=email, password=password)  # Use email as the username
+        user = authenticate(request, username=email, password=password)  # email as the username
         if user is not None:
             login(request, user)
             messages.success(request, 'You have been logged in successfully')
@@ -36,16 +36,30 @@ def logout_user(request):
 
 def register_user(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)  # Use UserCreationForm
-        if form.is_valid():
-            user = form.save()  # Create and save the user
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password_check = request.POST.get('password-check')
+        
+        if password != password_check:
+            messages.error(request, 'Passwords do not match')
+            return redirect('register')
+            
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Email already exists')
+            return redirect('register')
+            
+        try:
+            user = User.objects.create_user(
+                username=email,  # Using email as username
+                email=email,
+                password=password,
+                first_name=name
+            )
             messages.success(request, 'You have been registered successfully')
             return redirect('login')
-        else:
-            for error_list in form.errors.values():
-                for error in error_list:
-                    messages.error(request, error)
-            return render(request, 'register.html', {'form': form})
+        except Exception as e:
+            messages.error(request, f'Error creating account: {str(e)}')
+            return redirect('register')
     else:
-        form = UserCreationForm()  # Create an empty form for GET requests
-        return render(request, 'register.html', {'form': form})
+        return render(request, 'register.html', {})

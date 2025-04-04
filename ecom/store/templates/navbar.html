@@ -31,21 +31,22 @@
         <i class="fa-solid fa-angle-down"></i>
 
     </div>
-{% if user.is_aunthenticated%}
+    {% if user.is_authenticated %}
     <div class="nav-signin border">
         <p class="nav-sec"><a href="{%url 'logout'%}">Logout</a><i class="fa-solid fa-angle-down"></i></p>
-{% else %}
+    </div>
+    {% else %}
+    <div class="nav-signin border">
         <p><a href="{%url 'login'%}">Hello, Sign in</a></p>
     </div>
-{% endif %}
+    {% endif %}
 
     <div class="nav-return border">
-        <p><span>Returns </span></p>
-        <p class="nav-sec"> & Orders</p>
+        <p><span>Returns</span><span class="nav-sec">& Orders</span></p>
     </div>
-    <div class="nav-cart">
+    <div class="nav-cart border">
         <i class="fa-solid fa-cart-shopping"></i>
-        Cart
+        <span>Cart</span>
     </div>
 
 </div>
