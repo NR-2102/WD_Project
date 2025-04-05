@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Description..</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+    *{
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    body{
+        font-family: Arial, sans-serif;
+        border: 2px solid red;
+    }
+    
+    #nav_bar{
+        /* border: 2px solid blue; */
+        background-color: red;
+        color: white;
+        margin: 20px 20px;
+        text-align: center;
+        padding: 30px;
+        font-size: 50px;
+    }
+
+    #apple_nav{
+        /* border: 2px solid magenta; */
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        flex-flow: row;
+        /* padding: 8px 13px; */
+    }
+
+    #apple_nav .apple{
+        border: 3px solid #f0f0f0;
+        font-family: Arial, sans-serif;
+        /* margin: 0px 10px; */
+        font-size: 13px;
+        padding: 8px 13px;
+
+    }
+
+    #apple_nav #a1{
+        margin-left: 10px;
+        font-size: 16px;
+    }
+
+    #apple_nav #a1:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a2:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a3:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a4:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a5:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a6:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a7:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a8:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a9:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a10:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+
+    #apple_nav #a11:hover{
+        cursor: pointer;
+        border-bottom: 3px solid #0067c1;
+        color: #0c8eff;
+    }
+    
+    #data{
+        /* border: 2px solid darkgreen; */
+        padding: 20px 30px;
+    }
+    
+    #data #b1{
+        /* border: 2px solid indianred; */
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-flow: row;
+    }
+
+    #data #b1 img{
+        /* border: 2px solid black;     */
+        height: 111px;
+        width: 111px;
+        border-radius: 5px;
+    }
+
+    #data #b1 #o5 img{
+        /* height: 90px; */
+        width: 150px;
+    }
+    
+    #data #b1 .obj{
+        /* border: 2px solid orange; */
+        background-color: white;
+        margin: 10px 0px;
+        border-radius: 5px;
+        
+    }
+    
+    #data #b1 .obj:hover{
+        cursor: pointer;
+    }
+    
+    #o1 b{
+        font-family: Arial, sans-serif;
+        /* border: 2px solid yellow; */
+        font-size: 45px;
+        /* margin-left: 100px; */
+    }
+
+    #o2{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #o2 .d1{
+        /* border: 2px solid green; */
+        border-radius: 5px;
+
+    }
+
+    #o2 .d2{
+        /* border: 2px solid blue; */
+        color: #0074D9;
+        font-size: 17px;
+        margin: 7px 10px;
+    }
+
+    #o2 .d2:hover{
+        color: #D84315;
+    }
+
+    #o3{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #o3 .d1{
+        /* border: 2px solid green; */
+        border-radius: 5px;
+
+    }
+
+    #o3 .d2{
+        /* border: 2px solid blue; */
+        color: #0074D9;
+        font-size: 17px;
+        margin: 7px 10px;
+    }
+
+    #o3 .d2:hover{
+        color: #D84315;
+    }
+
+    #o4{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #o4 .d1{
+        /* border: 2px solid green; */
+        border-radius: 5px;
+
+    }
+
+    #o4 .d2{
+        /* border: 2px solid blue; */
+        color: #0074D9;
+        font-size: 17px;
+        margin: 7px 10px;
+    }
+
+    #o4 .d2:hover{
+        color: #D84315;
+    }
+
+    #o5{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #o5 .d1{
+        /* border: 2px solid green; */
+        border-radius: 5px;
+
+    }
+
+    #o5 .d2{
+        /* border: 2px solid blue; */
+        color: #0074D9;
+        font-size: 17px;
+        margin: 7px 10px;
+    }
+
+    #o5 .d2:hover{
+        color: #D84315;
+    }
+
+    #o6{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #o6 .d1{
+        /* border: 2px solid green; */
+        border-radius: 5px;
+
+    }
+
+    #o6 .d2{
+        /* border: 2px solid blue; */
+        color: #0074D9;
+        font-size: 17px;
+        margin: 7px 10px;
+    }
+
+    #o6 .d2:hover{
+        color: #D84315;
+    }
+
+    #o7{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #o7 .d1{
+        /* border: 2px solid green; */
+        border-radius: 5px;
+
+    }
+
+    #o7 .d2{
+        /* border: 2px solid blue; */
+        color: #0074D9;
+        font-size: 17px;
+        margin: 7px 10px;
+    }
+
+    #o7 .d2:hover{
+        color: #D84315;
+    }
+
+    #o8{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #o8 .d1{
+        /* border: 2px solid green; */
+        border-radius: 5px;
+
+    }
+
+    #o8 .d2{
+        /* border: 2px solid blue; */
+        color: #0074D9;
+        font-size: 17px;
+        margin: 7px 10px;
+    }
+
+    #o8 .d2:hover{
+        color: #D84315;
+    }
+
+    #data1{
+        /* border: 2px solid black; */
+        display: flex;
+        /* align-items: center;
+        justify-content: space-between; */
+        flex-flow: row;
+        margin: 0px 30px;
+        padding-top: 20px;
+        /* padding-bottom: 20px; */
+    }
+
+    #img{
+        /* border: 2px solid orchid; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #img img{
+        /* border: 2px solid blue; */
+        height: 700px;
+        width: 700px;
+    }
+
+    #des{
+        border-bottom: 2px solid #9d9d9d;
+        /* border: 2px solid green; */
+        /* width: 5000px; */
+        margin-left: 30px;
+        /* width: 10000000px; */
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    #des .info{
+        /* border: 2px solid yellow; */
+        font-weight: bold;
+        font-size: 32px;
+        text-align: justify;
+    }
+
+    #des .visit{
+        /* border: 2px solid blue; */
+        color: #0067c1;
+        font-size: 19px;
+        /* font-weight: bold; */
+        padding: 0px 0px;
+    }
+
+    #des #stars{
+        /* border: 2px solid green; */
+        display: flex;
+        align-items: center;
+        /* justify-content: center; */
+        flex-flow: row;
+    }
+    
+    #des .decimal{
+        /* border: 2px solid orangered; */
+        font-size: 18px;
+        margin: 0px 3px 0px 0px;
+    }
+
+    #des #stars .filled{
+        /* border: 2px solid magenta; */
+        /* padding: none; */
+        color: #F57C00;
+        font-weight: bold;
+        font-size: 25px;
+        margin: 0px 0px;
+        margin-bottom: 6px;
+    }
+
+    #des #stars .unfilled{
+        /* border: 2px solid maroon; */
+        color: #F57C00;
+        font-weight: bold;
+        font-size: 25px;
+        margin-bottom: 6px;
+    }
+
+    #des #stars .rate{
+        /* border: 2px solid black; */
+        color: #0067c1;
+        font-size: 19px;
+        margin-left: 10px;
+    }
+
+    #des #stars .rate:hover{
+        cursor: pointer;
+    }
+
+    #des .d{
+        /* border: 2px solid red; */
+        border-top: 2px solid #9d9d9d;
+        border-bottom: 2px solid #9d9d9d;
+        display: flex;
+        /* align-items: center; */
+        justify-content: center;
+        flex-flow: column;
+        font-size: 17px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-top: 5px;
+    }
+
+    #des .d span{
+        color: green;
+        font-weight: bold;
+        font-size: 22px;
+    }
+
+    #des .p_info{
+        border-bottom: 2px solid #9d9d9d;
+        margin-top: 20px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    #des .p_info tr th{
+        /* border: 2px solid green; */
+        font-size: 18px;
+        /* width: 50px; */
+        padding-right: 80px;
+        /* width: -5px; */
+        /* margin: 10px 0px; */
+    }
+    
+    #des .p_info tr td{
+        /* border: 2px solid red; */
+        font-size: 16px;
+        /* width: 50px; */
+        /* padding-right: 80px; */
+        width: 200px;
+    }
+
+    #des .ati b{
+        /* border: 2px solid red; */
+        font-size: 18px;
+        /* margin: 0px 0px 5px 0px; */
+    }
+    
+    #des .ati p{
+        /* border: 2px solid green; */
+        font-size: 16px;
+        margin: 5px 0px;
+    }
+
+    #wl{
+        border-bottom: 2px solid #9d9d9d;
+        /* border: 2px solid red; */
+        padding-left: 30px;
+        width: 450px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    #db{
+        border: 1px solid #9d9d9d;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+    }
+
+    #db .check{
+        /* font-family: "Comfortaa", sans-serif; */
+        /* border: 2px solid red; */
+        color: darkred;
+        font-weight: bold;
+        text-align: center;
+        font-size: 18px;
+    }   
+
+    #db p{
+        font-family: Arial, sans-serif;
+        /* border: 2px solid yellow; */
+        text-align: center;
+        font-size: 15px;
+        margin: 8px 0px;
+    }
+
+    #db span{
+        font-family: Arial, sans-serif;
+        /* border: 2px solid greenyellow; */
+        text-align: center;
+        font-size: 14px;
+        color: #0067c1;
+    }
+
+    #db .box{
+        font-family: Arial, sans-serif;
+        /* border: 2px solid magenta; */
+        text-align: center;
+        font-size: 15px;
+        height: 30px;
+        width: 231px;
+        border-bottom: 1px solid #9d9d9d;
+    }
+
+    #db .wish{
+        font-family: Arial, sans-serif;
+        border: 2px solid #666666;
+        text-align: center;
+        font-size: 15px;
+        margin-top: 15px;
+        width: 231px;
+        border-radius: 5px;
+        padding: 7px 0px;
+    }
+
+    #db .wish:hover{
+        cursor: pointer;
+        background-color: #f0f0f0;
+    }
+
+    #data2{
+        /* border: 2px solid blue; */
+        margin: 20px 30px;
+        /* padding-bottom: 20px; */
+        margin-bottom: 25px;
+    }
+
+    #data2 .upside{
+        /* border: 2px solid red; */
+        display: flex;
+        align-items: center;
+        /* justify-content: center; */
+        margin-bottom: 20px;
+    }
+
+    #data2 .slant-box{
+        font-family: Arial, sans-serif;
+        background-color: #505050;
+        color: white;
+        clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
+        width: 150px;
+        height: 40px;
+        font-size: 16px;
+        /* font-weight: bold; */
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #data2 span{
+        font-size: 30px;
+        font-weight: bold;
+        margin-left: 5px;
+    }
+
+    #data2 .data{
+        border-bottom: 2px solid #9d9d9d;
+        padding-bottom: 25px;
+    }
+    
+    #data2 .data .sec1{
+        /* border: 2px solid green; */
+        display: flex;
+        align-items: center;
+        /* justify-content: center; */
+        flex-flow: row;
+        /* padding: 0px 20px; */
+
+    }
+
+    #data2 .data .sec2{
+        /* border: 2px solid blue; */
+        display: flex;
+        align-items: center;
+        /* justify-content: center; */
+        flex-flow: row;
+        margin-top: 5px;
+    }
+
+    #data2 .data .sec3{
+        /* border: 2px solid magenta; */
+        display: flex;
+        align-items: center;
+        /* justify-content: center; */
+        flex-flow: row;
+        margin-top: 5px;
+    }
+
+    #data2 .data .tick-outline{
+        width: 25px;
+        height: 25px;
+        border: 3px solid #1ac300; 
+        color: #1ac300;            
+        border-radius: 50%;       
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: transparent;
+        margin-right: 8px;
+    }
+
+    #bottom{
+        /* border: 2px solid blue; */
+        background-color: red;
+        color: white;
+        margin: 20px 20px;
+        text-align: center;
+        padding: 30px;
+        font-size: 50px;
+    }
+
+</style>
+<body>
+    <div id="nav_bar">
+        Navigation bar..
+    </div>
+    <div id="apple_nav">
+        <div id="a1" class="apple">
+            <b>
+                Apple Products
+            </b>
+        </div>
+        <div id="a2" class="apple">
+            iPhone
+        </div>
+        <div id="a3" class="apple">
+            iPad
+        </div>
+        <div id="a4" class="apple">
+            Apple Watch
+        </div>
+        <div id="a5" class="apple">
+            AirPods
+        </div>
+        <div id="a6" class="apple">
+            MacBook
+        </div>
+        <div id="a7" class="apple">
+            MacDesktops
+        </div>
+        <div id="a8" class="apple">
+            Apple TV
+        </div>
+        <div id="a9" class="apple">
+            iPod touch
+        </div>
+        <div id="a10" class="apple">
+            Accessories
+        </div>
+        <div id="a11" class="apple">
+            Beats by Dr. Dre
+        </div>
+    </div>
+    <div id="data">
+        <div id="b1">
+            <div id="o1" class="obj1">
+                <b>Mac</b><br>
+                <b>Desktops</b>
+                <!-- Mac <br>
+                Desktops -->
+            </div>
+            <div id="o2" class="obj">
+                <div class="d1">
+                    <img src="/WD_Project/ecom/static/assets/( iMac 27-inch ).webp" alt="Error..">
+                </div>
+                <div class="d2">
+                    iMac (27-inch)
+                </div>
+            </div>
+            <div id="o3" class="obj">
+                <div class="d1">
+                    <img src="/WD_Project/ecom/static/assets/( iMac 24-inch ).jpg" alt="Error..">
+                </div>
+                <div class="d2">
+                    iMac (24-inch)
+                </div>
+            </div>
+            <div id="o4" class="obj">
+                <div class="d1">
+                    <img src="/WD_Project/ecom/static/assets/( iMac 21.5-inch ).jpg" alt="Error..">
+                </div>
+                <div class="d2">
+                    iMac (21.5-inch)
+                </div>
+            </div>
+            <div id="o5" class="obj">
+                <div class="d1">
+                    <img src="/WD_Project/ecom/static/assets/( Pro-Display XDR ).jpg" alt="Error..">
+                </div>
+                <div class="d2">
+                    Pro-Display XDR
+                </div>
+            </div>
+            <div id="o6" class="obj">
+                <div class="d1">
+                    <img src="/WD_Project/ecom/static/assets/( Mac-Mini ).jpg" alt="Error..">
+                </div>
+                <div class="d2">
+                    Mac-Mini
+                </div>
+            </div>
+            <div id="o7" class="obj">
+                <div class="d1">
+                    <img src="/WD_Project/ecom/static/assets/( Mac-Mini M1 ).jpg" alt="Error..">
+                </div>
+                <div class="d2">
+                    Mac-Mini M1
+                </div>
+            </div>
+            <div id="o8" class="obj">
+                <div class="d1">
+                    <img src="/WD_Project/ecom/static/assets/( Mac-Accessories ).webp" alt="Error..">
+                </div>
+                <div class="d2">
+                    Accessories
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="data1">
+        <div id="img">
+            <img src="/WD_Project/ecom/static/assets/Monitor.jpg" alt="Error..">
+        </div>
+        <div id="des">
+            <div class="info">
+                Apple iMac with Retina 5K Display (27-inch/68.58 cm, 8GB RAM, 3.1GHz 6-core 10th-Generation Intel Core i5 Processor, 256GB SSD Storage) - Silver 
+            </div>
+            <div class="visit">
+                Visit the Apple Store
+            </div>
+            <div id="stars">
+                <div class="decimal">
+                    3.9
+                </div>
+                <div class="filled">
+                    &#9733; <!-- Filled -->
+                </div>
+                <div class="filled">
+                    &#9733; <!-- Filled -->
+                </div>
+                <div class="filled">
+                    &#9733; <!-- Filled -->
+                </div>
+                <div class="filled">
+                    &#9733; <!-- Filled -->
+                </div>
+                <div class="unfilled">
+                    &#9734; 
+                </div>
+                <div class="rate">
+                    25 Rating | Search this page
+                </div>
+            </div>
+            <div class="d">
+                <span>
+                    Currently unavailable.
+                </span>
+                We don't know when or if this item will be back in stock. 
+            </div>
+            <div class="p_info">
+                <table>
+                    <tr><th align="left">Brand</th><td>Apple</td></tr>
+                    <tr><th align="left">Operating System</th><td>Mac OS</td></tr>
+                    <tr><th align="left">CPU Model</th><td>Core i5</td></tr>
+                    <tr><th align="left">CPU Speed</th><td>3.1 GHz</td></tr>
+                    <tr><th align="left">Graphics Card Description</th><td>Dedicated</td></tr>
+                    <tr><th align="left">Graphics Coprocessor</th><td>Radeon Pro 5300</td></tr>
+                    <tr><th align="left">Memory Storage Capacity</th><td>256 GB</td></tr>
+                    <tr><th align="left">Specific Uses For Product</th><td>personal, gaming, business</td></tr>
+                    <tr><th align="left">Screen Size</th><td>27 Inches</td></tr>
+                    <tr><th align="left">RAM Memory Installed Size</th><td>4 GB</td></tr>
+                  </table>                  
+            </div>
+            <div class="ati">
+                <b>About this item</b>
+                <p>&#9679; 68.58cm/27-inch (diagonal) 5120-by-2880 Retina 5K display </p>
+                <p>&#9679; 3.1GHz 6-core 10th-generation Intel Core i5 </p>
+                <p>&#9679; AMD Radeon Pro 5300 graphics </p>
+                <p>&#9679; Ultrafast SSD storage </p>
+                <p>&#9679; Two Thunderbolt 3 (USB-C) ports </p>
+                <p>&#9679; Four USB-A ports </p>
+                <p>&#9679; Gigabit Ethernet port </p>
+                <p>&#9679; 1080p FaceTime HD camera</p>
+                <p>&#9679; 802.11ac Wi-Fi and Bluetooth 5.0</p>
+                <p>&#9679; iMac, Magic Keyboard, Magic Mouse 2, Power cord, Lightning to USB Cable.</p>
+            </div>
+        </div>
+        <div id="wl">
+            <div id="db">
+                <div class="check">
+                    Currently unavailable
+                </div>
+                <p>
+                    We don't know when or if this item will be back in stock.
+                </p>
+                <span>
+                    Delivering to Chandigarh 140603 - Update location
+                </span>
+                <div class="box"></div>
+                <div class="wish">
+                    Add to Wish List
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="data2">
+        <div class="upside">
+            <div class="slant-box">
+                Top Brand
+            </div>
+            <span>
+                Apple
+            </span>
+        </div>
+        <div class="data">
+            <div class="sec1">
+                <div class="tick-outline">
+                    ✓
+                </div>
+                95% positive ratings from 100K+ customers 
+            </div>
+            <div class="sec2">
+                <div class="tick-outline">
+                    ✓
+                </div>  
+                50K+ recent orders from this brand
+            </div>
+            <div class="sec3">
+                <div class="tick-outline">
+                    ✓
+                </div>                  
+                11+ years on Amazon 
+            </div>
+        </div>
+    </div>
+    <div id="bottom">
+        Bottom part..
+    </div>
+</body>
+</html>
