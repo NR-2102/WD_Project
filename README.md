@@ -20,7 +20,7 @@ This is a full-stack E-commerce web application built using Django for the backe
 
 - **Backend**: Django (Python)
 - **Frontend**: HTML, CSS, Bootstrap, JavaScript
-- **Database**: SQLite (can be changed to PostgreSQL/MySQL)
+- **Database**: SQLite 
 - **Tools**: VS Code, Git
 
 
