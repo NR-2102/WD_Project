@@ -1,167 +1,32 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block content %}
-
-{%load static%}
-
-{% if messages %}
-<div class="message-popup-container">
-    {% for message in messages %}
-    <div class="message-popup message-{{ message.tags }}">
-        <div class="message-content">
-            {% if message.tags == 'success' %}
-            <i class="fas fa-check-circle message-icon"></i>
-            {% elif message.tags == 'error' %}
-            <i class="fas fa-exclamation-circle message-icon"></i>
-            {% elif message.tags == 'warning' %}
-            <i class="fas fa-exclamation-triangle message-icon"></i>
-            {% else %}
-            <i class="fas fa-info-circle message-icon"></i>
-            {% endif %}
-            <span>{{ message }}</span>
-        </div>
-        <button class="message-close" onclick="this.parentElement.style.display='none';">×</button>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
-
-<style>
-    .message-popup-container {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
-        max-width: 400px;
-        width: auto;
-    }
-
-    .message-popup {
-        padding: 12px 20px;
-        margin-bottom: 10px;
-        border-radius: 8px;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background-color: white;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        border-left: 4px solid;
-        animation: slideIn 0.3s ease-out;
-    }
-
-    .message-content {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .message-success {
-        border-left-color: #067d62;
-        color: #067d62;
-    }
-
-    .message-error {
-        border-left-color: #c40000;
-        color: #c40000;
-    }
-
-    .message-warning {
-        border-left-color: #e47911;
-        color: #e47911;
-    }
-
-    .message-info {
-        border-left-color: #0066c0;
-        color: #0066c0;
-    }
-
-    .message-icon {
-        font-size: 18px;
-    }
-
-    .message-close {
-        background: none;
-        border: none;
-        color: #555;
-        font-size: 20px;
-        cursor: pointer;
-        padding: 0 5px;
-        margin-left: 15px;
-        opacity: 0.7;
-        transition: opacity 0.2s;
-    }
-
-    .message-close:hover {
-        opacity: 1;
-        color: #000;
-    }
-
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-        }
-        to {
-            opacity: 0;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Auto-hide messages after 5 seconds
-        const messages = document.querySelectorAll('.message-popup');
-        messages.forEach(function(message) {
-            setTimeout(function() {
-                message.style.animation = 'fadeOut 0.5s ease-out forwards';
-                setTimeout(function() {
-                    message.style.display = 'none';
-                }, 500);
-            }, 5000);
-        });
-    });
-</script>
-
     <div class="marquee-container">
         <div class="marquee-content">
-            <img src="{%static '/assets/Banner-1.webp' %}" alt="Error..">
-            <img src="{%static '/assets/Banner-2.jpg' %}" alt="Error..">
-            <img src="{%static '/assets/Banner-3.jpg' %}" alt="Error..">
-            <img src="{%static '/assets/Banner-4.jpg' %}" alt="Error..">
-            <img src="{%static '/assets/Banner-5.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-1.webp' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-2.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-3.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-4.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-5.jpg' %}" alt="Error..">
 
-            <img src="{%static '/assets/Banner-1.webp'%}" alt="Error..">
-            <img src="{%static '/assets/Banner-2.jpg'%}" alt="Error..">
-            <img src="{%static '/assets/Banner-3.jpg'%}" alt="Error..">
-            <img src="{%static '/assets/Banner-4.jpg'%}" alt="Error..">
-            <img src="{%static '/assets/Banner-5.jpg'%}" alt="Error..">
+            <img src="{% static 'assets/Banner-1.webp' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-2.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-3.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-4.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-5.jpg' %}" alt="Error..">
         </div>
     </div>
-
 
     <div class="bar">
         Products..
     </div>
 
-
-
     <div id="container2">
         <div class="c1">
             {% for product in products %}
                 <div class="i1">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                   <a href="{% url 'product' product.id %}"> <img src="{{ product.image.url }}" alt="{{ product.name }}"></a>
                     <div class="info1">
                         {{ product.name }}<br>
                         <div class="add">
@@ -174,64 +39,78 @@
         </div>
     </div>
 
-
- <div class="shop-section">
+    <div class="shop-section">
         <div class="box1 box">
             <div class="box-content">
                 <h2>Clothes</h2>
-                <img class="box-img" src="{% static 'assets/box1_image.jpg' %}" alt="Clothes Image">
-                <p>See More</p>
+                <a href="{% url 'category' 'Clothes' %}">
+                    <img class="box-img" src="{% static 'assets/box1_image.jpg' %}" alt="Clothes Image">
+                </a>
+                <p><a href="{% url 'category' 'Clothes' %}">See More</a></p>
             </div>
         </div>
-
 
         <div class="box2 box">
             <div class="box-content">
                 <h2>Health & Personal Care</h2>
-                <img class="box-img" src="{% static 'assets/box2_image.jpg' %}" alt="Health & Personal Care Image">
-                <p>See More</p>
+                <a href="{% url 'category' 'Health & Personal Care' %}">
+                    <img class="box-img" src="{% static 'assets/box2_image.jpg' %}" alt="Health & Personal Care Image">
+                </a>
+                <p><a href="{% url 'category' 'Health & Personal Care' %}">See More</a></p>
             </div>
         </div>
         <div class="box3 box">
             <div class="box-content">
                 <h2>Furniture</h2>
-                <img class="box-img" src="{% static 'assets/box3_image.jpg' %}" alt="Furniture Image">
-                <p>See More</p>
+                <a href="{% url 'category' 'Furniture' %}">
+                    <img class="box-img" src="{% static 'assets/box3_image.jpg' %}" alt="Furniture Image">
+                </a>
+                <p><a href="{% url 'category' 'Furniture' %}">See More</a></p>
             </div>
         </div>
         <div class="box4 box">
             <div class="box-content">
                 <h2>Mobile and Accessories</h2>
-                <img class="box-img" src="{% static 'assets/box4_image.jpg' %}" alt="Mobile and Accessories Image">
-                <p>See More</p>
+                <a href="{% url 'category' 'Mobile and Accessories' %}">
+                    <img class="box-img" src="{% static 'assets/box4_image.jpg' %}" alt="Mobile and Accessories Image">
+                </a>
+                <p><a href="{% url 'category' 'Mobile and Accessories' %}">See More</a></p>
             </div>
         </div>
         <div class="box1 box">
             <div class="box-content">
                 <h2>Makeup Kit</h2>
-                <img class="box-img" src="{% static 'assets/box5_image.jpg' %}" alt="Makeup Kit Image">
-                <p>See More</p>
+                <a href="{% url 'category' 'Makeup Kit' %}">
+                    <img class="box-img" src="{% static 'assets/box5_image.jpg' %}" alt="Makeup Kit Image">
+                </a>
+                <p><a href="{% url 'category' 'Makeup Kit' %}">See More</a></p>
             </div>
         </div>
         <div class="box2 box">
             <div class="box-content">
                 <h2>Pet Food & More</h2>
-                <img class="box-img" src="{% static 'assets/box6_image.jpg' %}" alt="Pet Food & More Image">
-                <p>See More</p>
+                <a href="{% url 'category' 'Pet Food & More' %}">
+                    <img class="box-img" src="{% static 'assets/box6_image.jpg' %}" alt="Pet Food & More Image">
+                </a>
+                <p><a href="{% url 'category' 'Pet Food & More' %}">See More</a></p>
             </div>
         </div>
         <div class="box3 box">
             <div class="box-content">
                 <h2>Toys & More</h2>
-                <img class="box-img" src="{% static 'assets/box7_image.jpg' %}" alt="Toys & More Image">
-                <p>See More</p>
+                <a href="{% url 'category' 'Toys & More' %}">
+                    <img class="box-img" src="{% static 'assets/box7_image.jpg' %}" alt="Toys & More Image">
+                </a>
+                <p><a href="{% url 'category' 'Toys & More' %}">See More</a></p>
             </div>
         </div>
         <div class="box4 box">
             <div class="box-content">
                 <h2>Fashion & More</h2>
-                <img class="box-img" src="{% static 'assets/box8_image.jpg' %}" alt="Fashion & More Image">
-                <p>See More</p>
+                <a href="{% url 'category' 'Fashion & More' %}">
+                    <img class="box-img" src="{% static 'assets/box8_image.jpg' %}" alt="Fashion & More Image">
+                </a>
+                <p><a href="{% url 'category' 'Fashion & More' %}">See More</a></p>
             </div>
         </div>
     </div>
@@ -242,7 +121,7 @@
             background-size: cover;
             background-position: center;
             width: 100%;
-            height: 300px; /* or whatever height you want */
+            height: 300px;
         }
     </style>
 
@@ -251,7 +130,7 @@
             <p>See personalized recommendations</p>
             <div class="golden_button">
                 <button>
-                    <a href="{%url 'login'%}" target="_blank">
+                    <a href="{% url 'login' %}" target="_blank">
                         Sign in
                     </a>
                 </button>
@@ -259,5 +138,4 @@
             <p> New Customer? <a href="#" target="_blank">Start Here.</a></p>
         </div>
     </section>
-
-   {% endblock %}
+{% endblock %}

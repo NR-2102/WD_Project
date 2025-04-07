@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>..Description..</title>
-</head>
+{% extends 'base.html' %}
+{% block content %}
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
-
+    
     *{
         margin: 0px;
         padding: 0px;
@@ -16,19 +12,10 @@
 
     body{
         font-family: Arial, sans-serif;
-        border: 2px solid red;
+        /* border: 2px solid red; */
     }
     
-    #nav_bar{
-        /* border: 2px solid blue; */
-        background-color: red;
-        color: white;
-        margin: 20px 20px;
-        text-align: center;
-        padding: 30px;
-        font-size: 50px;
-    }
-
+    
     #apple_nav{
         /* border: 2px solid magenta; */
         background-color: #f0f0f0;
@@ -37,33 +24,33 @@
         flex-flow: row;
         /* padding: 8px 13px; */
     }
-
+    
     #apple_nav .apple{
         border: 3px solid #f0f0f0;
         font-family: Arial, sans-serif;
         /* margin: 0px 10px; */
         font-size: 13px;
         padding: 8px 13px;
-
+        
     }
-
+    
     #apple_nav #a1{
         margin-left: 10px;
         font-size: 16px;
     }
-
+    
     #apple_nav #a1:hover{
         cursor: pointer;
         border-bottom: 3px solid #0067c1;
         color: #0c8eff;
     }
-
+    
     #apple_nav #a2:hover{
         cursor: pointer;
         border-bottom: 3px solid #0067c1;
         color: #0c8eff;
     }
-
+    
     #apple_nav #a3:hover{
         cursor: pointer;
         border-bottom: 3px solid #0067c1;
@@ -75,19 +62,19 @@
         border-bottom: 3px solid #0067c1;
         color: #0c8eff;
     }
-
+    
     #apple_nav #a5:hover{
         cursor: pointer;
         border-bottom: 3px solid #0067c1;
         color: #0c8eff;
     }
-
+    
     #apple_nav #a6:hover{
         cursor: pointer;
         border-bottom: 3px solid #0067c1;
         color: #0c8eff;
     }
-
+    
     #apple_nav #a7:hover{
         cursor: pointer;
         border-bottom: 3px solid #0067c1;
@@ -99,7 +86,7 @@
         border-bottom: 3px solid #0067c1;
         color: #0c8eff;
     }
-
+    
     #apple_nav #a9:hover{
         cursor: pointer;
         border-bottom: 3px solid #0067c1;
@@ -111,7 +98,7 @@
         border-bottom: 3px solid #0067c1;
         color: #0c8eff;
     }
-
+    
     #apple_nav #a11:hover{
         cursor: pointer;
         border-bottom: 3px solid #0067c1;
@@ -131,14 +118,14 @@
         justify-content: space-evenly;
         flex-flow: row;
     }
-
+    
     #data #b1 img{
         /* border: 2px solid black;     */
         height: 111px;
         width: 111px;
         border-radius: 5px;
     }
-
+    
     #data #b1 #o5 img{
         /* height: 90px; */
         width: 150px;
@@ -162,105 +149,106 @@
         font-size: 45px;
         /* margin-left: 100px; */
     }
-
+    
     #o2{
         display: flex;
         flex-flow: column;
         justify-content: center;
         align-items: center;
     }
-
+    
     #o2 .d1{
         /* border: 2px solid green; */
         border-radius: 5px;
-
+        
     }
-
+    
     #o2 .d2{
         /* border: 2px solid blue; */
         color: #0074D9;
         font-size: 17px;
         margin: 7px 10px;
     }
-
+    
     #o2 .d2:hover{
         color: #D84315;
     }
-
+    
     #o3{
         display: flex;
         flex-flow: column;
         justify-content: center;
         align-items: center;
     }
-
+    
     #o3 .d1{
         /* border: 2px solid green; */
         border-radius: 5px;
-
+        
     }
-
+    
     #o3 .d2{
         /* border: 2px solid blue; */
         color: #0074D9;
         font-size: 17px;
         margin: 7px 10px;
     }
-
+    
     #o3 .d2:hover{
         color: #D84315;
     }
-
+    
     #o4{
         display: flex;
         flex-flow: column;
         justify-content: center;
         align-items: center;
     }
-
+    
     #o4 .d1{
         /* border: 2px solid green; */
         border-radius: 5px;
-
+        
     }
-
+    
     #o4 .d2{
         /* border: 2px solid blue; */
         color: #0074D9;
         font-size: 17px;
         margin: 7px 10px;
     }
-
+    
     #o4 .d2:hover{
         color: #D84315;
     }
-
+    
     #o5{
         display: flex;
         flex-flow: column;
         justify-content: center;
         align-items: center;
     }
-
+    
     #o5 .d1{
         /* border: 2px solid green; */
         border-radius: 5px;
-
+        
     }
-
+    
     #o5 .d2{
         /* border: 2px solid blue; */
         color: #0074D9;
         font-size: 17px;
         margin: 7px 10px;
     }
-
+    
     #o5 .d2:hover{
         color: #D84315;
     }
-
+    
     #o6{
         display: flex;
+        
         flex-flow: column;
         justify-content: center;
         align-items: center;
@@ -643,232 +631,247 @@
         font-size: 50px;
     }
 
+    /* Add these new styles for product display */
+    .product-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .product-main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .product-image {
+        text-align: center;
+    }
+    
+    .product-image img {
+        max-width: 100%;
+        border-radius: 5px;
+    }
+    
+    .product-title {
+        font-size: 24px;
+        color: #232f3e;
+        margin-bottom: 10px;
+    }
+    
+    .product-brand {
+        color: #0066c0;
+        margin-bottom: 10px;
+    }
+    
+    .price-display {
+        color: #B12704;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 15px 0;
+    }
+    
+    .price-inr {
+        margin-right: 10px;
+    }
+    
+    .price-usd {
+        font-size: 14px;
+        color: #555;
+    }
+    
+    .product-tabs {
+        border-bottom: 1px solid #ddd;
+        margin: 30px 0 20px;
+    }
+    
+    .tab-button {
+        background: none;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    
+    .tab-button.active {
+        color: #232f3e;
+        border-bottom: 2px solid #232f3e;
+    }
+    
+    .tab-content {
+        display: none;
+        padding: 20px 0;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .related-products {
+        margin-top: 40px;
+    }
+    
+    .related-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    
+    .related-item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    
+    .related-item img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    
+    @media (max-width: 768px) {
+        .product-main {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
-<body>
-    <div id="nav_bar">
-        Navigation bar..
-    </div>
-    <div id="apple_nav">
-        <div id="a1" class="apple">
-            <b>
-                Apple Products
-            </b>
+
+{% if has_product %}
+<!-- Product description section -->
+<div class="product-container">
+    <div class="product-main">
+        <!-- Product image -->
+        <div class="product-image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div style="height:300px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;">
+                    No Image Available
+                </div>
+            {% endif %}
         </div>
-        <div id="a2" class="apple">
-            iPhone
-        </div>
-        <div id="a3" class="apple">
-            iPad
-        </div>
-        <div id="a4" class="apple">
-            Apple Watch
-        </div>
-        <div id="a5" class="apple">
-            AirPods
-        </div>
-        <div id="a6" class="apple">
-            MacBook
-        </div>
-        <div id="a7" class="apple">
-            MacDesktops
-        </div>
-        <div id="a8" class="apple">
-            Apple TV
-        </div>
-        <div id="a9" class="apple">
-            iPod touch
-        </div>
-        <div id="a10" class="apple">
-            Accessories
-        </div>
-        <div id="a11" class="apple">
-            Beats by Dr. Dre
-        </div>
-    </div>
-    <div id="data">
-        <div id="b1">
-            <div id="o1" class="obj1">
-                <b>Mac</b><br>
-                <b>Desktops</b>
-                <!-- Mac <br>
-                Desktops -->
+        
+        <!-- Product info -->
+        <div class="product-info">
+            <h1 class="product-title">{{ product.name }}</h1>
+            
+            {% if product.brand %}
+                <div class="product-brand">Brand: {{ product.brand }}</div>
+            {% endif %}
+            
+            <div class="price-display">
+                <span class="price-inr">₹{{ product.price_inr|floatformat:2 }}</span>
+                <span class="price-usd">${{ product.price }}</span>
             </div>
-            <div id="o2" class="obj">
-                <div class="d1">
-                    <img src="/WD_Project/ecom/static/assets/( iMac 27-inch ).webp" alt="Error..">
-                </div>
-                <div class="d2">
-                    iMac (27-inch)
-                </div>
+            
+            <div class="product-description">
+                {{ product.description|linebreaks }}
             </div>
-            <div id="o3" class="obj">
-                <div class="d1">
-                    <img src="/WD_Project/ecom/static/assets/( iMac 24-inch ).jpg" alt="Error..">
+            
+            <!-- Add to cart form -->
+            <form method="POST" action="#">
+                {% csrf_token %}
+                <div style="margin-bottom:15px;">
+                    <label for="quantity">Quantity:</label>
+                    <select name="quantity" id="quantity" style="padding:5px;width:60px;">
+                        {% for i in "12345" %}
+                            <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                <div class="d2">
-                    iMac (24-inch)
-                </div>
-            </div>
-            <div id="o4" class="obj">
-                <div class="d1">
-                    <img src="/WD_Project/ecom/static/assets/( iMac 21.5-inch ).jpg" alt="Error..">
-                </div>
-                <div class="d2">
-                    iMac (21.5-inch)
-                </div>
-            </div>
-            <div id="o5" class="obj">
-                <div class="d1">
-                    <img src="/WD_Project/ecom/static/assets/( Pro-Display XDR ).jpg" alt="Error..">
-                </div>
-                <div class="d2">
-                    Pro-Display XDR
-                </div>
-            </div>
-            <div id="o6" class="obj">
-                <div class="d1">
-                    <img src="/WD_Project/ecom/static/assets/( Mac-Mini ).jpg" alt="Error..">
-                </div>
-                <div class="d2">
-                    Mac-Mini
-                </div>
-            </div>
-            <div id="o7" class="obj">
-                <div class="d1">
-                    <img src="/WD_Project/ecom/static/assets/( Mac-Mini M1 ).jpg" alt="Error..">
-                </div>
-                <div class="d2">
-                    Mac-Mini M1
-                </div>
-            </div>
-            <div id="o8" class="obj">
-                <div class="d1">
-                    <img src="/WD_Project/ecom/static/assets/( Mac-Accessories ).webp" alt="Error..">
-                </div>
-                <div class="d2">
-                    Accessories
-                </div>
-            </div>
+                <button type="submit" style="background:#FFD814;width:100%;padding:8px 0;border:none;border-radius:4px;cursor:pointer;">
+                    Add to Cart
+                </button>
+            </form>
         </div>
     </div>
-    <div id="data1">
-        <div id="img">
-            <img src="/WD_Project/ecom/static/assets/Monitor.jpg" alt="Error..">
-        </div>
-        <div id="des">
-            <div class="info">
-                Apple iMac with Retina 5K Display (27-inch/68.58 cm, 8GB RAM, 3.1GHz 6-core 10th-Generation Intel Core i5 Processor, 256GB SSD Storage) - Silver 
+    
+    <!-- Tabs section -->
+    <div class="product-tabs">
+        <button class="tab-button active" onclick="openTab(event, 'details')">Details</button>
+        <button class="tab-button" onclick="openTab(event, 'specs')">Specifications</button>
+    </div>
+    
+    <div id="details" class="tab-content active">
+        <h3>Product Details</h3>
+        <p>{{ product.description }}</p>
+        {% if product.feature %}
+            <h4>Features</h4>
+            <p>{{ product.feature }}</p>
+        {% endif %}
+    </div>
+    
+    <div id="specs" class="tab-content">
+        <h3>Specifications</h3>
+        <table style="width:100%;border-collapse:collapse;">
+            <tbody>
+                {% for spec in specifications %}
+                <tr>
+                    <th style="text-align:left;padding:8px;border-bottom:1px solid #ddd;width:200px;">{{ spec.name }}</th>
+                    <td style="text-align:left;padding:8px;border-bottom:1px solid #ddd;">{{ spec.value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Related products -->
+    {% if related_products %}
+    <div class="related-products">
+        <h2>Related Products</h2>
+        <div class="related-grid">
+            {% for related in related_products %}
+            <div class="related-item">
+                <a href="{% url 'product' related.id %}" style="text-decoration:none;color:inherit;">
+                    {% if related.image %}
+                    <img src="{{ related.image.url }}" alt="{{ related.name }}">
+                    {% else %}
+                    <div style="height:150px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;">No Image</div>
+                    {% endif %}
+                    <h3 style="font-size:14px;margin:10px 0 5px;">{{ related.name }}</h3>
+                    <p style="color:#B12704;margin:0;">₹{{ related.price_inr|floatformat:2 }}</p>
+                </a>
             </div>
-            <div class="visit">
-                Visit the Apple Store
-            </div>
-            <div id="stars">
-                <div class="decimal">
-                    3.9
-                </div>
-                <div class="filled">
-                    &#9733; <!-- Filled -->
-                </div>
-                <div class="filled">
-                    &#9733; <!-- Filled -->
-                </div>
-                <div class="filled">
-                    &#9733; <!-- Filled -->
-                </div>
-                <div class="filled">
-                    &#9733; <!-- Filled -->
-                </div>
-                <div class="unfilled">
-                    &#9734; 
-                </div>
-                <div class="rate">
-                    25 Rating | Search this page
-                </div>
-            </div>
-            <div class="d">
-                <span>
-                    Currently unavailable.
-                </span>
-                We don't know when or if this item will be back in stock. 
-            </div>
-            <div class="p_info">
-                <table>
-                    <tr><th align="left">Brand</th><td>Apple</td></tr>
-                    <tr><th align="left">Operating System</th><td>Mac OS</td></tr>
-                    <tr><th align="left">CPU Model</th><td>Core i5</td></tr>
-                    <tr><th align="left">CPU Speed</th><td>3.1 GHz</td></tr>
-                    <tr><th align="left">Graphics Card Description</th><td>Dedicated</td></tr>
-                    <tr><th align="left">Graphics Coprocessor</th><td>Radeon Pro 5300</td></tr>
-                    <tr><th align="left">Memory Storage Capacity</th><td>256 GB</td></tr>
-                    <tr><th align="left">Specific Uses For Product</th><td>personal, gaming, business</td></tr>
-                    <tr><th align="left">Screen Size</th><td>27 Inches</td></tr>
-                    <tr><th align="left">RAM Memory Installed Size</th><td>4 GB</td></tr>
-                  </table>                  
-            </div>
-            <div class="ati">
-                <b>About this item</b>
-                <p>&#9679; 68.58cm/27-inch (diagonal) 5120-by-2880 Retina 5K display </p>
-                <p>&#9679; 3.1GHz 6-core 10th-generation Intel Core i5 </p>
-                <p>&#9679; AMD Radeon Pro 5300 graphics </p>
-                <p>&#9679; Ultrafast SSD storage </p>
-                <p>&#9679; Two Thunderbolt 3 (USB-C) ports </p>
-                <p>&#9679; Four USB-A ports </p>
-                <p>&#9679; Gigabit Ethernet port </p>
-                <p>&#9679; 1080p FaceTime HD camera</p>
-                <p>&#9679; 802.11ac Wi-Fi and Bluetooth 5.0</p>
-                <p>&#9679; iMac, Magic Keyboard, Magic Mouse 2, Power cord, Lightning to USB Cable.</p>
-            </div>
-        </div>
-        <div id="wl">
-            <div id="db">
-                <div class="check">
-                    Currently unavailable
-                </div>
-                <p>
-                    We don't know when or if this item will be back in stock.
-                </p>
-                <span>
-                    Delivering to Chandigarh 140603 - Update location
-                </span>
-                <div class="box"></div>
-                <div class="wish">
-                    Add to Wish List
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
-    <div id="data2">
-        <div class="upside">
-            <div class="slant-box">
-                Top Brand
-            </div>
-            <span>
-                Apple
-            </span>
-        </div>
-        <div class="data">
-            <div class="sec1">
-                <div class="tick-outline">
-                    ✓
-                </div>
-                95% positive ratings from 100K+ customers 
-            </div>
-            <div class="sec2">
-                <div class="tick-outline">
-                    ✓
-                </div>  
-                50K+ recent orders from this brand
-            </div>
-            <div class="sec3">
-                <div class="tick-outline">
-                    ✓
-                </div>                  
-                11+ years on Amazon 
-            </div>
-        </div>
-    </div>
-    <div id="bottom">
-        Bottom part..
-    </div>
-</body>
-</html>
+    {% endif %}
+</div>
+
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tabbuttons;
+    
+    // Hide all tab content
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    
+    // Remove "active" class from all tab buttons
+    tabbuttons = document.getElementsByClassName("tab-button");
+    for (i = 0; i < tabbuttons.length; i++) {
+        tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+    }
+    
+    // Show the current tab and add "active" class to the button
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+{% else %}
+<!-- Your existing description page content -->
+<div id="apple_nav">
+    <!-- Keep your existing content -->
+    <!-- ... -->
+</div>
+
+<div id="data">
+    <!-- Keep your existing content -->
+    <!-- ... -->
+</div>
+{% endif %}
+
+{% endblock %}
