@@ -9,19 +9,6 @@ from django import forms
 
 
 # Create your views here.
-
-
-def category(request, foo):
-    products = Products.objects.filter(category__name=foo)
-    return render(request, 'category.html', {'products': products, 'category': foo})
-
-def description(request):
-    return render(request, 'description.html', {})
-
-def product(request, pk):
-    product = Products.objects.get(id=pk)
-    return render(request, 'product.html', {'product': product})
-
 def home(request):
     products = Products.objects.all()
     return render(request, 'home.html', {'products': products})
