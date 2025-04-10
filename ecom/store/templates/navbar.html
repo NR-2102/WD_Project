@@ -1,36 +1,201 @@
 <style>
-    .panel{
-        border: none;
+    .nav {
+        height: 60px;
+        background-color: #131921;
         display: flex;
         align-items: center;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 0px 25px;
+        justify-content: space-evenly;
+        color: white;
     }
 
-    button{
-        border: none;
-        background-color: #FFC800;
+    .nav-logo {
+        height: 50px;
+        width: 100px;
+    }
+
+    .logo {
+        height: 50px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .logo img {
+        height: 100%;
+        width: auto;
+    }
+
+    .border {
+        border: 1.5px solid transparent;
+    }
+
+    .border:hover {
+        border: 1.5px solid white;
+    }
+
+    .nav-address {
+        padding: 0 9px;
+    }
+
+    .add-first {
+        color: #cccccc;
+        font-size: 0.85rem;
+        margin-left: 15px;
+    }
+
+    .add-sec {
+        font-size: 1rem;
+        margin-left: 3px;
+    }
+
+    .add-icon {
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-search {
+        display: flex;
+        justify-content: space-evenly;
+        background-color: pink;
+        width: 620px;
+        height: 40px;
+        border-radius: 4px;
+    }
+
+    .search-select {
+        background-color: #f3f3f3;
+        width: 50px;
         text-align: center;
-        width: 45px;
-        height: 30px;
-        border-radius: 5px;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        border: none;
     }
 
-    button:hover{
+    .search-input {
+        width: 100%;
+        font-size: 1rem;
+        border: none;
+    }
+
+    .search-icon {
+        width: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        background-color: #febd68;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        color: #0f1111;
+    }
+
+    .nav-signin {
+        padding: 0 9px;
+    }
+
+    .nav-signin p {
+        margin: 0;
+    }
+
+    .nav-signin a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .nav-return {
+        padding: 0 9px;
+    }
+
+    .nav-return p {
+        margin: 0;
+    }
+
+    .nav-sec {
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .nav-cart {
+        padding: 0 9px;
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-cart i {
+        font-size: 30px;
+    }
+
+    .nav-cart span {
+        margin-left: 5px;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .user-dropdown {
+        position: relative;
+        display: inline-block;
         cursor: pointer;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        border-radius: 4px;
+        padding: 10px 0;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        transition: background-color 0.3s;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+        color: #131921;
+    }
+
+    .user-dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .dropdown-item i {
+        width: 20px;
+    }
+
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .logo-img {
+        height: 50px;
+        width: auto;
     }
 </style>
 
 {%load static%}
-<div class="navbar">
-
+<div class="nav">
     <div class="nav-logo border">
         <a href="{% url 'home' %}">
-            <div class="logo">
-                <img src="https://imgs.search.brave.com/jDHcCUZdjnL1xjLmTRrllqTavLWDhon_1f0SboHTFxc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aGF0Y2h3aXNlLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/Mi8wNS9hbWF6b24t/bG9nby0xMDI0eDY4/My5wbmctMS53ZWJw"
-                    alt="Amazon Logo">
-            </div>
+            <img src="{% static 'assets/amazon_logo.png' %}" alt="Amazon Logo" class="logo-img">
         </a>
     </div>
 
@@ -45,59 +210,40 @@
     <div class="nav-search">
         <select class="search-select">
             <option>All</option>
-            <option>Alexa Skills</option>  
-            <option>Amazon Devices</option>  
-            <option>Amazon Fashion</option>  
-            <option>Amazon Fresh</option>  
-            <option>Amazon Pharmacy</option>  
-            <option>Appliances</option>  
-            <option>Apps & Games</option>  
-            <option>Audible Audiobooks</option>  
-            <option>Baby</option>  
-            <option>Beauty</option>  
-            <option>Books</option>  
-            <option>Car & Motorbike</option>  
-            <option>Clothing & Accessories</option>  
-            <option>Collectibles</option>  
-            <option>Computers & Accessories</option>  
-            <option>Deals</option>  
-            <option>Electronics</option>  
-            <option>Furniture</option>  
-            <option>Garden & Outdoors</option>  
-            <option>Gift Cards</option>  
-            <option>Grocery & Gourmet Foods</option>  
-            <option>Health & Personal Care</option>  
-            <option>Home & Kitchen</option>  
-            <option>Industrial & Scientific</option>  
-            <option>Jewellery</option>   
         </select>
-        <input type="text" placeholder="Search Amazon" class="search-input">
+        <input placeholder="Search Amazon" class="search-input">
         <div class="search-icon">
-            <i class="fa-solid  fa-magnifying-glass"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
         </div>
     </div>
-    <div class="region border">
-        <img src="{%static 'assets/flag2.png'%}" alt="Error..">
-        <p>EN</p>
-        <i class="fa-solid fa-angle-down"></i>
 
-    </div>
-    {% if user.is_authenticated %}
     <div class="nav-signin border">
-        <p class="nav-sec"><a href="{%url 'logout'%}">Logout</a><i class="fa-solid fa-angle-down"></i></p>
+        {% if user.is_authenticated %}
+            <div class="user-dropdown">
+                <span class="nav-link">
+                    <i class="fas fa-user"></i>
+                    {{ user.first_name }}
+                </span>
+                <div class="dropdown-content">
+                    <a href="{% url 'logout' %}" class="dropdown-item" style="color: black; text-decoration: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <p><a href="{%url 'login'%}">Hello, Sign in</a></p>
+        {% endif %}
     </div>
-    {% else %}
-    <div class="nav-signin border">
-        <p><a href="{%url 'login'%}">Hello, Sign in</a></p>
-    </div>
-    {% endif %}
 
     <div class="nav-return border">
         <p><span>Returns</span><span class="nav-sec">& Orders</span></p>
     </div>
-    <div class="nav-cart border">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span>Cart</span>
-    </div>
 
+    <div class="nav-cart border">
+        <a href="{% url 'cart' %}" class="nav-link">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Cart</span>
+        </a>
+    </div>
 </div>

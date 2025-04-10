@@ -30,7 +30,7 @@
                     <div class="info1">
                         {{ product.name }}<br>
                         <div class="add">
-                            <b>From ${{ product.price }}</b>
+                            <b>₹{{ product.price_inr|floatformat:2 }}</b>
                             <button>Add</button>
                         </div>
                     </div>

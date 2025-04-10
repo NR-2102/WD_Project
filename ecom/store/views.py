@@ -6,21 +6,24 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from .forms import UserRegistrationForm, LoginForm
 
 
 # Create your views here.
 def home(request):
     products = Products.objects.all()
+    for product in products:
+        product.price_inr = product.price_inr  # This line is just to ensure the price_inr is available in the template
     return render(request, 'home.html', {'products': products})
 
 def deals(request):
-    return render(request, 'deals.html', {})
+    return render(request, 'deals.html')
 
 def login_user(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')  # email from the POST request
+    if request.method == "POST":
+        email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(request, username=email, password=password)  # email as the username
+        user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
             messages.success(request, 'You have been logged in successfully')
@@ -69,17 +72,10 @@ def register_user(request):
 def product_description(request, pk):
     product = get_object_or_404(Products, id=pk)
     
-    # Convert price to rupees
-    exchange_rate = 83  # 1 USD = 83 INR (approx)
-    product.price_inr = float(product.price) * exchange_rate
-    
     # Get related products from the same category
     related_products = Products.objects.filter(category=product.category).exclude(id=pk)[:4]
     
-    # Convert prices for related products
-    for related in related_products:
-        related.price_inr = float(related.price) * exchange_rate
-    
+    # Get category name
     category_name = product.category.name
     
     # Prepare specifications based on category
@@ -88,30 +84,29 @@ def product_description(request, pk):
     if category_name == 'Electronics':
         specs = [
             {'name': 'Brand', 'value': product.brand or 'N/A'},
-            {'name': 'Model Number', 'value': product.model_number or 'N/A'},
-            {'name': 'Warranty', 'value': product.warranty or 'N/A'},
+            {'name': 'Model Number', 'value': getattr(product, 'model_number', 'N/A')},
+            {'name': 'Warranty', 'value': getattr(product, 'warranty', 'N/A')},
         ]
     
     elif category_name == 'Sports':
         specs = [
             {'name': 'Brand', 'value': product.brand or 'N/A'},
-            {'name': 'Material', 'value': product.get_attribute('material') or 'N/A'},
-            {'name': 'Suitable For', 'value': product.get_attribute('suitable_for') or 'N/A'},
+            {'name': 'Description', 'value': product.description or 'N/A'},
+            {'name': 'Features', 'value': getattr(product, 'feature', 'N/A')},
         ]
     
     elif category_name == 'Fashion':
         specs = [
             {'name': 'Brand', 'value': product.brand or 'N/A'},
-            {'name': 'Material', 'value': product.get_attribute('material') or 'N/A'},
-            {'name': 'Size', 'value': product.get_attribute('size') or 'N/A'},
-            {'name': 'Color', 'value': product.get_attribute('color') or 'N/A'},
+            {'name': 'Description', 'value': product.description or 'N/A'},
+            {'name': 'Features', 'value': getattr(product, 'feature', 'N/A')},
         ]
     
     elif category_name == 'Beauty & Personal Care':
         specs = [
             {'name': 'Brand', 'value': product.brand or 'N/A'},
-            {'name': 'Skin Type', 'value': product.get_attribute('skin_type') or 'N/A'},
-            {'name': 'Ingredients', 'value': product.get_attribute('ingredients') or 'N/A'},
+            {'name': 'Description', 'value': product.description or 'N/A'},
+            {'name': 'Features', 'value': getattr(product, 'feature', 'N/A')},
         ]
     
     context = {
@@ -122,4 +117,38 @@ def product_description(request, pk):
     }
     
     return render(request, 'product_description.html', context)
+    
+def category_name(request, category_name):
+    try:
+        category = Category.objects.get(name=category_name)
+        products = Products.objects.filter(category=category)
+        
+        if not products.exists():
+            messages.info(request, f'No products found in the {category_name} category.')
+        
+        context = {
+            'category_name': category_name,
+            'products': products
+        }
+        return render(request, 'category.html', context)
+    except Category.DoesNotExist:
+        messages.error(request, f'Category "{category_name}" does not exist.')
+        return redirect('home')
+    
+def category(request, category_name):
+    # Get the category object
+    category_obj = get_object_or_404(Category, name=category_name)
+    
+    # Get all products in this category
+    products = Products.objects.filter(category=category_obj)
+    
+    context = {
+        'category_name': category_name,
+        'products': products,
+    }
+    
+    return render(request, 'category.html', context)
+
+def cart(request):
+    return render(request, 'cart.html', {})
     

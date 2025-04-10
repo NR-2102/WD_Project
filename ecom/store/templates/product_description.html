@@ -4,549 +4,195 @@
 {% block content %}
 <div class="product-description-container">
     <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb">
-        <a href="{% url 'home' %}">Home</a> >
-        <a href="{% url 'category' product.category.name %}">{{ product.category.name }}</a> >
-        {{ product.name }}
-    </div>
+    <nav class="breadcrumb-nav">
+        <div class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a> >
+            <a href="{% url 'category' product.category.name %}">{{ product.category.name }}</a> >
+            <span>{{ product.name }}</span>
+        </div>
+    </nav>
 
     <div class="product-main">
         <!-- Product Image Section -->
         <div class="product-image-section">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
-            {% else %}
-                <div class="no-image">No Image Available</div>
-            {% endif %}
+            <div class="image-container">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
+                {% else %}
+                    <div class="no-image">No Image Available</div>
+                {% endif %}
+            </div>
         </div>
 
         <!-- Product Info Section -->
         <div class="product-info-section">
-            <h1 class="product-title">{{ product.name }}</h1>
-            
-            {% if product.brand %}
-            <div class="product-brand">By {{ product.brand }}</div>
-            {% endif %}
-            
-            <div class="product-price">
-                <span class="price-amount">${{ product.price }}</span>
-            </div>
+            <div class="info-container">
+                <h1 class="product-title">{{ product.name }}</h1>
+                
+                {% if product.brand %}
+                <div class="product-brand">By {{ product.brand }}</div>
+                {% endif %}
+                
+                <div class="product-price">
+                    <span class="price-amount">₹{{ product.price_inr|floatformat:2 }}</span>
+                </div>
 
-            <!-- Add to Cart Section -->
-            <div class="purchase-section">
-                <form method="POST" class="add-to-cart-form">
-                    {% csrf_token %}
-                    <div class="quantity-selector">
-                        <label for="quantity">Quantity:</label>
-                        <select name="quantity" id="quantity">
-                            {% for i in "12345" %}
-                                <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-                </form>
+                <!-- Add to Cart Section -->
+                <div class="purchase-section">
+                    <form method="POST" class="add-to-cart-form">
+                        {% csrf_token %}
+                        <div class="quantity-selector">
+                            <label for="quantity">Quantity:</label>
+                            <select name="quantity" id="quantity">
+                                {% for i in "12345" %}
+                                    <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Tabs Section -->
+    <!-- About Section -->
     <div class="product-details-section">
-        <div class="details-nav">
-            <button class="detail-tab active" data-tab="about">About this item</button>
-            {% if product.feature %}
-            <button class="detail-tab" data-tab="features">Features</button>
-            {% endif %}
-            {% if product.brand %}
-            <button class="detail-tab" data-tab="specs">Details</button>
-            {% endif %}
-            
-            {% if product.category.name == 'Electronics' %}
-                <button class="detail-tab" data-tab="tech">Technical Details</button>
-            {% elif product.category.name == 'Fashion' %}
-                <button class="detail-tab" data-tab="sizing">Size & Fit</button>
-            {% elif product.category.name == 'Beauty & Personal Care' %}
-                <button class="detail-tab" data-tab="ingredients">Ingredients</button>
-            {% elif product.category.name == 'Sports' %}
-                <button class="detail-tab" data-tab="sports-details">Sports Details</button>
-            {% endif %}
-        </div>
-
         <div class="details-content">
-            <!-- About Section (Description) -->
-            <div class="detail-panel active" id="about">
-                <div class="description">
-                    <h3>Description</h3>
+            <div class="description">
+                <h3>About this item</h3>
+                <div class="content-box">
                     {{ product.description|linebreaks }}
                 </div>
             </div>
-            
-            <!-- Features Section -->
-            {% if product.feature %}
-            <div class="detail-panel" id="features">
-                <div class="features">
-                    <h3>Features</h3>
-                    {{ product.feature|linebreaks }}
-                </div>
-            </div>
-            {% endif %}
-            
-            <!-- Specifications Table -->
-            {% if product.brand %}
-            <div class="detail-panel" id="specs">
-                <table class="specs-table">
-                    <tbody>
-                        <tr>
-                            <th>Brand</th>
-                            <td>{{ product.brand }}</td>
-                        </tr>
-                        <tr>
-                            <th>Category</th>
-                            <td>{{ product.category.name }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            {% endif %}
-            
-            <!-- Category-specific panels -->
-            {% if product.category.name == 'Electronics' %}
-                <div class="detail-panel" id="tech">
-                    <div class="tech-details">
-                        <h3>Technical Specifications</h3>
-                        <p>This {{ product.name }} is manufactured by {{ product.brand }}</p>
-                        <p>Detailed technical information for this electronic device.</p>
-                        <ul class="tech-list">
-                            <li>High performance components</li>
-                            <li>Energy-efficient design</li>
-                            <li>User-friendly interface</li>
-                        </ul>
-                    </div>
-                </div>
-            {% elif product.category.name == 'Fashion' %}
-                <div class="detail-panel" id="sizing">
-                    <div class="sizing-guide">
-                        <h3>Size & Fit Information</h3>
-                        <p>{{ product.brand }} sizing information</p>
-                        <div class="size-chart">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Size</th>
-                                        <th>Chest (in)</th>
-                                        <th>Waist (in)</th>
-                                        <th>Length (in)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>S</td>
-                                        <td>36-38</td>
-                                        <td>30-32</td>
-                                        <td>28</td>
-                                    </tr>
-                                    <tr>
-                                        <td>M</td>
-                                        <td>38-40</td>
-                                        <td>32-34</td>
-                                        <td>29</td>
-                                    </tr>
-                                    <tr>
-                                        <td>L</td>
-                                        <td>40-42</td>
-                                        <td>34-36</td>
-                                        <td>30</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            {% elif product.category.name == 'Beauty & Personal Care' %}
-                <div class="detail-panel" id="ingredients">
-                    <div class="ingredients-list">
-                        <h3>Ingredients</h3>
-                        <p>{{ product.brand }} uses high-quality ingredients</p>
-                        <div class="ingredients-text">
-                            Water, Glycerin, Cetearyl Alcohol, Caprylic/Capric Triglyceride, Cetyl Alcohol, 
-                            Ceteareth-20, Petrolatum, Dimethicone, Phenoxyethanol, Behentrimonium Methosulfate, 
-                            Caprylyl Glycol, Allantoin, Ethylhexylglycerin, Aloe Barbadensis Leaf Juice, 
-                            Panthenol, Sodium Hydroxide, Tocopheryl Acetate, Disodium EDTA.
-                        </div>
-                        <div class="usage-info">
-                            <h4>How to Use</h4>
-                            <p>Apply to clean skin. Use daily for best results.</p>
-                        </div>
-                    </div>
-                </div>
-            {% elif product.category.name == 'Sports' %}
-                <div class="detail-panel" id="sports-details">
-                    <div class="sports-features">
-                        <h3>Sports Equipment Details</h3>
-                        <p>{{ product.brand }} sports equipment specifications</p>
-                        <ul class="sports-list">
-                            <li>Designed for maximum performance</li>
-                            <li>Durable construction</li>
-                            <li>Professional-grade quality</li>
-                        </ul>
-                        <div class="sports-usage">
-                            <h4>Recommended Use</h4>
-                            <p>Perfect for both amateur and professional athletes.</p>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
         </div>
     </div>
-    
-    <!-- Related Products -->
-    {% if related_products %}
-    <div class="related-products">
-        <h2>Similar Products</h2>
-        <div class="related-products-grid">
-            {% for related in related_products %}
-                <div class="related-product-card">
-                    <a href="{% url 'product' related.id %}">
-                        {% if related.image %}
-                            <img src="{{ related.image.url }}" alt="{{ related.name }}">
-                        {% else %}
-                            <div class="no-image-small">No Image</div>
-                        {% endif %}
-                        <div class="related-product-info">
-                            <h3>{{ related.name }}</h3>
-                            <p class="related-product-price">${{ related.price }}</p>
-                        </div>
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-</div>
 
-<style>
-    .product-description-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .breadcrumb {
-        margin-bottom: 20px;
-        color: #555;
-        font-size: 14px;
-    }
-
-    .breadcrumb a {
-        color: #0066c0;
-        text-decoration: none;
-    }
-
-    .breadcrumb a:hover {
-        text-decoration: underline;
-    }
-
-    .product-main {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        margin-bottom: 40px;
-    }
-
-    .product-image-section {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .main-image {
-        width: 100%;
-        height: auto;
-        display: block;
-    }
-
-    .no-image, .no-image-small {
-        background: #f5f5f5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #666;
-    }
-
-    .no-image {
-        height: 400px;
-    }
-
-    .no-image-small {
-        height: 150px;
-    }
-
-    .product-title {
-        font-size: 28px;
-        color: #232f3e;
-        margin: 0 0 10px 0;
-    }
-
-    .product-brand {
-        color: #0066c0;
-        margin-bottom: 15px;
-    }
-
-    .product-price {
-        font-size: 24px;
-        color: #B12704;
-        font-weight: bold;
-        margin: 20px 0;
-    }
-
-    .purchase-section {
-        margin: 20px 0;
-    }
-
-    .quantity-selector {
-        margin-bottom: 15px;
-    }
-
-    .quantity-selector select {
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        width: 80px;
-    }
-
-    .add-to-cart-btn {
-        width: 100%;
-        padding: 12px;
-        background: #FFD814;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    .add-to-cart-btn:hover {
-        background: #F7CA00;
-    }
-
-    .product-details-section {
-        margin-top: 40px;
-        border-top: 1px solid #ddd;
-        padding-top: 20px;
-    }
-
-    .details-nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        border-bottom: 1px solid #ddd;
-        margin-bottom: 20px;
-    }
-
-    .detail-tab {
-        padding: 10px 20px;
-        background: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        color: #666;
-    }
-
-    .detail-tab.active {
-        color: #232f3e;
-        border-bottom: 2px solid #232f3e;
-    }
-
-    .detail-panel {
-        display: none;
-        padding: 20px 0;
-    }
-
-    .detail-panel.active {
-        display: block;
-    }
-
-    .detail-panel h3 {
-        margin-top: 0;
-        color: #232f3e;
-        font-size: 20px;
-    }
-
-    .features, .description {
-        line-height: 1.6;
-    }
-
-    .specs-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .specs-table th, .specs-table td {
-        padding: 12px;
-        border-bottom: 1px solid #ddd;
-        text-align: left;
-    }
-
-    .specs-table th {
-        width: 200px;
-        color: #666;
-    }
-
-    .tech-list, .sports-list {
-        list-style-type: disc;
-        margin-left: 20px;
-        line-height: 1.6;
-    }
-
-    .size-chart table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-    .size-chart th, .size-chart td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: center;
-    }
-
-    .size-chart th {
-        background-color: #f5f5f5;
-    }
-
-    .ingredients-text {
-        background: #f9f9f9;
-        padding: 15px;
-        border-radius: 4px;
-        margin: 15px 0;
-        font-size: 14px;
-        line-height: 1.6;
-    }
-
-    .usage-info, .sports-usage {
-        margin-top: 20px;
-    }
-
-    .usage-info h4, .sports-usage h4 {
-        margin-bottom: 5px;
-        color: #232f3e;
-    }
-
-    .related-products {
-        margin-top: 40px;
-        border-top: 1px solid #ddd;
-        padding-top: 40px;
-    }
-
-    .related-products h2 {
-        margin-bottom: 20px;
-        font-size: 24px;
-    }
-
-    .related-products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-    }
-
-    .related-product-card {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        overflow: hidden;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .related-product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .related-product-card a {
-        text-decoration: none;
-        color: inherit;
-    }
-
-    .related-product-card img {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-    }
-
-    .related-product-info {
-        padding: 10px;
-    }
-
-    .related-product-info h3 {
-        font-size: 14px;
-        margin: 0 0 5px 0;
-    }
-
-    .related-product-price {
-        color: #B12704;
-        font-weight: bold;
-        margin: 0;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .product-main {
-            grid-template-columns: 1fr;
-        }
-
-        .detail-tab {
-            padding: 8px 15px;
-            font-size: 14px;
-        }
-
-        .related-products-grid {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        }
-    }
-
-    @media (max-width: 480px) {
+    <style>
         .product-description-container {
-            padding: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumb-nav {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .product-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .main-image {
+            max-width: 100%;
+            max-height: 400px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .info-container {
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         .product-title {
-            font-size: 22px;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .product-brand {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
         }
 
         .product-price {
-            font-size: 20px;
+            margin-bottom: 2rem;
         }
 
-        .details-nav {
-            gap: 5px;
+        .price-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-right: 1rem;
         }
 
-        .detail-tab {
-            padding: 6px 10px;
-            font-size: 13px;
+        .original-price {
+            color: #666;
+            text-decoration: line-through;
         }
 
-        .specs-table th {
-            width: 120px;
+        .purchase-section {
+            margin-top: 2rem;
         }
-    }
-</style>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.detail-tab');
-    const panels = document.querySelectorAll('.detail-panel');
+        .quantity-selector {
+            margin-bottom: 1rem;
+        }
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active class from all tabs and panels
-            tabs.forEach(t => t.classList.remove('active'));
-            panels.forEach(p => p.classList.remove('active'));
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-            // Add active class to clicked tab and corresponding panel
-            tab.classList.add('active');
-            document.getElementById(tab.dataset.tab).classList.add('active');
-        });
-    });
-});
-</script>
+        .add-to-cart-btn:hover {
+            background: #34495e;
+        }
+
+        .product-details-section {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 3rem;
+        }
+
+        .details-content {
+            padding: 2rem;
+        }
+
+        .content-box {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-main {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</div>
 {% endblock %} 
