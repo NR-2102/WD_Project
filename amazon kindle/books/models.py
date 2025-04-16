@@ -29,26 +29,6 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-class UserProfile(models.Model):
-    GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Other'),
-    )
-    
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    bio = models.TextField(max_length=500, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True)
-    phone_number = models.CharField(max_length=15, blank=True)
-    address = models.TextField(blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    def __str__(self):
-        return f"{self.user.username}'s Profile"
-
 class UserLibrary(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     books = models.ManyToManyField(Book, blank=True)
@@ -56,16 +36,15 @@ class UserLibrary(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Library"
 
-# Signal to create UserProfile and UserLibrary for new users
 @receiver(post_save, sender=User)
-def create_user_profile_and_library(sender, instance, created, **kwargs):
+def create_user_library(sender, instance, created, **kwargs):
     if created:
-        # Create UserProfile
-        UserProfile.objects.get_or_create(user=instance)
-        # Create UserLibrary
-        UserLibrary.objects.get_or_create(user=instance)
+        UserLibrary.objects.create(user=instance)
 
-# Signal to save UserProfile when User is saved
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+def save_user_library(sender, instance, **kwargs):
+    instance.userlibrary.save()
+
+
+
+
