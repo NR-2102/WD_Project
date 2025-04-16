@@ -1,0 +1,80 @@
+{% extends 'books/base.html' %}
+
+{% block title %}My Library{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">My Library</h1>
+    
+    {% if library.books.all %}
+        <form method="post" action="{% url 'bulk_remove_from_library' %}" id="libraryForm">
+            {% csrf_token %}
+            <div class="row">
+                {% for book in library.books.all %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            {% if book.cover_image %}
+                                <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
+                            {% else %}
+                                <div class="card-img-top bg-light text-center py-5">
+                                    <i class="fas fa-book fa-3x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text text-muted">By {{ book.author }}</p>
+                                <p class="card-text flex-grow-1">{{ book.description|truncatewords:30 }}</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="books" value="{{ book.id }}" class="form-check-input" id="book{{ book.id }}">
+                                        <label class="form-check-label" for="book{{ book.id }}">Select</label>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        {% if book.book_file %}
+                                            <a href="{{ book.book_file.url }}" class="btn btn-primary btn-sm" download>
+                                                <i class="fas fa-download me-1"></i> Download
+                                            </a>
+                                        {% endif %}
+                                        <a href="{% url 'remove_from_library' book.id %}" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-minus-circle me-1"></i> Remove
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-danger" id="bulkRemoveBtn" disabled>
+                    <i class="fas fa-trash me-1"></i> Remove Selected Books
+                </button>
+            </div>
+        </form>
+    {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i> Your library is empty. Browse books to add some to your library.
+        </div>
+        <a href="{% url 'home' %}" class="btn btn-primary">
+            <i class="fas fa-book me-1"></i> Browse Books
+        </a>
+    {% endif %}
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name="books"]');
+        const bulkRemoveBtn = document.getElementById('bulkRemoveBtn');
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const checkedBoxes = document.querySelectorAll('input[type="checkbox"][name="books"]:checked');
+                bulkRemoveBtn.disabled = checkedBoxes.length === 0;
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+{% endblock %} 
