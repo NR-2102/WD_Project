@@ -64,17 +64,4 @@ class CustomAuthenticationForm(AuthenticationForm):
         password = self.cleaned_data.get('password')
         if not password:
             raise forms.ValidationError("Please enter your password.")
-        return password
-
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ('bio', 'birth_date', 'gender', 'phone_number', 'address', 'profile_picture')
-        widgets = {
-            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'gender': forms.Select(attrs={'class': 'form-control'}),
-            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
-        } 
+        return password 

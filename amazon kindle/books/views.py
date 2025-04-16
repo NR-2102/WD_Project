@@ -6,7 +6,7 @@ from .models import Book, UserLibrary, UserProfile
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfileForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.utils import timezone
@@ -120,19 +120,8 @@ def bulk_remove_from_library(request):
 @login_required
 def profile(request):
     user = request.user
-    profile, created = UserProfile.objects.get_or_create(user=user)
-    
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your profile has been updated successfully!')
-            return redirect('profile')
-    else:
-        form = UserProfileForm(instance=profile)
-    
+    profile = UserProfile.objects.get_or_create(user=user)[0]
     return render(request, 'books/profile.html', {
-        'form': form,
         'profile': profile,
         'user': user
     })
