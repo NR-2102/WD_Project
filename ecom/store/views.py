@@ -1,154 +1,228 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Products
-from .models import Category
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import Products, Category, Profile, Order, OrderItem
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from django import forms
-from .forms import UserRegistrationForm, LoginForm
+from decimal import Decimal
+import uuid
+from datetime import datetime
 
-
-# Create your views here.
 def home(request):
     products = Products.objects.all()
-    for product in products:
-        product.price_inr = product.price_inr  # This line is just to ensure the price_inr is available in the template
     return render(request, 'home.html', {'products': products})
 
-def deals(request):
-    return render(request, 'deals.html')
-
 def login_user(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(request, username=email, password=password)
+        
+        # Try to authenticate with email first
+        try:
+            user = User.objects.get(email=email)
+            user = authenticate(request, username=user.username, password=password)
+        except User.DoesNotExist:
+            # If email not found, try username
+            user = authenticate(request, username=email, password=password)
+        
         if user is not None:
             login(request, user)
             messages.success(request, 'You have been logged in successfully')
             return redirect('home')
         else:
-            messages.error(request, 'Invalid email or password')
+            messages.error(request, 'Invalid email/username or password')
             return redirect('login')
     else:
         return render(request, 'login.html', {})
 
 def logout_user(request):
     logout(request)
-    messages.success(request, 'You have been logged out successfully')
+    messages.success(request, 'Successfully logged out!')
     return redirect('home')
 
 def register_user(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        password_check = request.POST.get('password-check')
+        confirm_password = request.POST.get('confirm_password')
         
-        if password != password_check:
+        if password != confirm_password:
             messages.error(request, 'Passwords do not match')
             return redirect('register')
-            
+        
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Email already exists')
             return redirect('register')
-            
-        try:
-            user = User.objects.create_user(
-                username=email,  
-                email=email,
-                password=password,
-                first_name=name
-            )
-            messages.success(request, 'You have been registered successfully')
-            return redirect('login')
-        except Exception as e:
-            messages.error(request, f'Error creating account: {str(e)}')
-            return redirect('register')
-    else:
-        return render(request, 'register.html', {})
+        
+        username = email.split('@')[0]
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
+        
+        Profile.objects.create(user=user)
+        
+        messages.success(request, 'Account created successfully! Please login.')
+        return redirect('login')
+        
+    return render(request, 'register.html')
 
 def product_description(request, pk):
     product = get_object_or_404(Products, id=pk)
-    
-    # Get related products from the same category
     related_products = Products.objects.filter(category=product.category).exclude(id=pk)[:4]
-    
-    # Get category name
-    category_name = product.category.name
-    
-    # Prepare specifications based on category
-    specs = []
-    
-    if category_name == 'Electronics':
-        specs = [
-            {'name': 'Brand', 'value': product.brand or 'N/A'},
-            {'name': 'Model Number', 'value': getattr(product, 'model_number', 'N/A')},
-            {'name': 'Warranty', 'value': getattr(product, 'warranty', 'N/A')},
-        ]
-    
-    elif category_name == 'Sports':
-        specs = [
-            {'name': 'Brand', 'value': product.brand or 'N/A'},
-            {'name': 'Description', 'value': product.description or 'N/A'},
-            {'name': 'Features', 'value': getattr(product, 'feature', 'N/A')},
-        ]
-    
-    elif category_name == 'Fashion':
-        specs = [
-            {'name': 'Brand', 'value': product.brand or 'N/A'},
-            {'name': 'Description', 'value': product.description or 'N/A'},
-            {'name': 'Features', 'value': getattr(product, 'feature', 'N/A')},
-        ]
-    
-    elif category_name == 'Beauty & Personal Care':
-        specs = [
-            {'name': 'Brand', 'value': product.brand or 'N/A'},
-            {'name': 'Description', 'value': product.description or 'N/A'},
-            {'name': 'Features', 'value': getattr(product, 'feature', 'N/A')},
-        ]
-    
-    context = {
+    return render(request, 'product_description.html', {
         'product': product,
-        'category_name': category_name,
-        'related_products': related_products,
-        'specifications': specs,
-    }
-    
-    return render(request, 'product_description.html', context)
-    
-def category_name(request, category_name):
-    try:
-        category = Category.objects.get(name=category_name)
-        products = Products.objects.filter(category=category)
-        
-        if not products.exists():
-            messages.info(request, f'No products found in the {category_name} category.')
-        
-        context = {
-            'category_name': category_name,
-            'products': products
-        }
-        return render(request, 'category.html', context)
-    except Category.DoesNotExist:
-        messages.error(request, f'Category "{category_name}" does not exist.')
-        return redirect('home')
-    
-def category(request, category_name):
-    # Get the category object
-    category_obj = get_object_or_404(Category, name=category_name)
-    
-    # Get all products in this category
-    products = Products.objects.filter(category=category_obj)
-    
-    context = {
-        'category_name': category_name,
-        'products': products,
-    }
-    
-    return render(request, 'category.html', context)
+        'related_products': related_products
+    })
 
-def cart(request):
-    return render(request, 'cart.html', {})
+def category_name(request, category_name):
+    category = get_object_or_404(Category, name=category_name)
+    products = Products.objects.filter(category=category)
+    return render(request, 'category.html', {
+        'category': category,
+        'products': products
+    })
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user = request.user
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+        
+        profile = user.profile
+        profile.phone_number = request.POST.get('phone_number')
+        profile.address = request.POST.get('address')
+        
+        if 'profile_picture' in request.FILES:
+            profile.profile_picture = request.FILES['profile_picture']
+        
+        profile.save()
+        
+        messages.success(request, 'Profile updated successfully!')
+        return redirect('profile')
     
+    return render(request, 'profile.html')
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        if not request.user.check_password(current_password):
+            messages.error(request, 'Current password is incorrect')
+            return redirect('profile')
+        
+        if new_password != confirm_password:
+            messages.error(request, 'New passwords do not match')
+            return redirect('profile')
+        
+        if len(new_password) < 8:
+            messages.error(request, 'Password must be at least 8 characters long')
+            return redirect('profile')
+        
+        request.user.set_password(new_password)
+        request.user.save()
+        
+        update_session_auth_hash(request, request.user)
+        
+        messages.success(request, 'Password changed successfully')
+        return redirect('profile')
+    
+    return redirect('profile')
+
+
+
+@login_required
+def cart_summary(request):
+    cart = request.session.get('cart', {})
+    items = []
+    total = Decimal('0.00')
+    
+    for product_id, quantity in cart.items():
+        product = get_object_or_404(Products, id=product_id)
+        item_total = product.price * quantity
+        total += item_total
+        items.append({
+            'product': product,
+            'quantity': quantity,
+            'subtotal': item_total
+        })
+    
+    return render(request, 'cart.html', {
+        'items': items,
+        'total': total
+    })
+
+@login_required
+def checkout(request):
+    cart = request.session.get('cart', {})
+    if not cart:
+        messages.error(request, 'Your cart is empty')
+        return redirect('cart_summary')
+
+    total = Decimal('0.00')
+    items = []
+    for product_id, quantity in cart.items():
+        product = get_object_or_404(Products, id=product_id)
+        item_total = product.price * quantity
+        total += item_total
+        items.append({
+            'product': product,
+            'quantity': quantity,
+            'subtotal': item_total
+        })
+
+    if request.method == 'POST':
+        # Generate unique order number
+        order_number = f"ORD-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:8]}"
+        
+        # Create order
+        order = Order.objects.create(
+            user=request.user,
+            order_number=order_number,
+            total_amount=total,
+            shipping_address=request.POST.get('shipping_address'),
+            phone_number=request.POST.get('phone_number'),
+            email=request.POST.get('email')
+        )
+
+        # Create order items
+        for item in items:
+            OrderItem.objects.create(
+                order=order,
+                product=item['product'],
+                quantity=item['quantity'],
+                price=item['product'].price
+            )
+
+        # Clear cart
+        request.session['cart'] = {}
+        
+        messages.success(request, f'Order placed successfully! Order number: {order_number}')
+        return redirect('order_confirmation', order_number=order_number)
+
+    return render(request, 'checkout.html', {
+        'items': items,
+        'total': total,
+        'user': request.user
+    })
+
+@login_required
+def order_confirmation(request, order_number):
+    order = get_object_or_404(Order, order_number=order_number, user=request.user)
+    return render(request, 'order_confirmation.html', {'order': order})
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-order_date')
+    return render(request, 'order_history.html', {'orders': orders})

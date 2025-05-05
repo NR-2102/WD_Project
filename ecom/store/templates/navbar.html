@@ -237,11 +237,11 @@
     </div>
 
     <div class="nav-return border">
-        <p><span>Returns</span><span class="nav-sec">& Orders</span></p>
+        <a href="{%url 'profile'%}"><p><span>Accounts</span></a><span class="nav-sec">Returns & Orders</span></p>
     </div>
 
     <div class="nav-cart border">
-        <a href="{% url 'cart' %}" class="nav-link">
+        <a href="{% url 'cart_summary'%}" class="nav-link">
             <i class="fa-solid fa-cart-shopping"></i>
             <span>Cart</span>
         </a>

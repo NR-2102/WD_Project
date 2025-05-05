@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="confirmation-container">
+    <div class="confirmation-content">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h1>Order Confirmed!</h1>
+        <p>Thank you for your purchase.</p>
+        <p>Order Number: {{ order.order_number }}</p>
+        <p>Total Amount: ${{ order.total_amount }}</p>
+        <p>Order Date: {{ order.order_date }}</p>
+        
+        <div class="order-details">
+            <h2>Order Details</h2>
+            {% for item in order.items.all %}
+            <div class="order-item">
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                <div class="item-details">
+                    <h3>{{ item.product.name }}</h3>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Price: ${{ item.price }}</p>
+                    <p>Subtotal: ${{ item.subtotal }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="shipping-info">
+            <h2>Shipping Information</h2>
+            <p>Address: {{ order.shipping_address }}</p>
+            <p>Phone: {{ order.phone_number }}</p>
+            <p>Email: {{ order.email }}</p>
+        </div>
+
+        <a href="{% url 'home' %}" class="continue-shopping-btn">Continue Shopping</a>
+    </div>
+</div>
+
+<style>
+    .confirmation-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .confirmation-content {
+        text-align: center;
+    }
+
+    .success-icon {
+        font-size: 4rem;
+        color: #28a745;
+        margin-bottom: 1rem;
+    }
+
+    .order-details, .shipping-info {
+        margin-top: 2rem;
+        text-align: left;
+    }
+
+    .order-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .product-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .continue-shopping-btn {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 1rem 2rem;
+        background: #FFC800;
+        color: black;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+
+    .continue-shopping-btn:hover {
+        background: #e6b400;
+    }
+</style>
+{% endblock %} 

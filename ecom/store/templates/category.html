@@ -269,7 +269,7 @@
         height: 300px; /* or whatever height you want */
     }
 </style>
-
+{% if not user.is_authenticated %}
 <section>
     <div class="personlized">
         <p>See personalized recommendations</p>
@@ -283,5 +283,5 @@
         <p> New Customer? <a href="#" target="_blank">Start Here.</a></p>
     </div>
 </section>
-
+{% endif %}
 {% endblock %}

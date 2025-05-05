@@ -31,7 +31,12 @@
                         {{ product.name }}<br>
                         <div class="add">
                             <b>₹{{ product.price_inr|floatformat:2 }}</b>
-                            <button>Add</button>
+                            <form method="POST" action="{% url 'cart_add' %}" class="add-to-cart-form" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="add-to-cart-btn">Add</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -125,6 +130,7 @@
         }
     </style>
 
+{% if not user.is_authenticated %}
     <section>
         <div class="personlized">
             <p>See personalized recommendations</p>
@@ -135,7 +141,8 @@
                     </a>
                 </button>
             </div>
-            <p> New Customer? <a href="#" target="_blank">Start Here.</a></p>
+            <p> New Customer? <a href="{% url 'register' %}" target="_blank">Start Here.</a></p>
         </div>
     </section>
+    {% endif %}
 {% endblock %}
