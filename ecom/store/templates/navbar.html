@@ -208,13 +208,15 @@
     </div>
 
     <div class="nav-search">
-        <select class="search-select">
-            <option>All</option>
-        </select>
-        <input placeholder="Search Amazon" class="search-input">
-        <div class="search-icon">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
+        <form method="GET" action="{% url 'search_results' %}" style="display: flex; width: 100%;">
+            <select class="search-select">
+                <option>All</option>
+            </select>
+            <input type="text" name="q" placeholder="Search Amazon" class="search-input" value="{{ request.GET.q }}">
+            <button type="submit" class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
     </div>
 
     <div class="nav-signin border">
@@ -237,7 +239,7 @@
     </div>
 
     <div class="nav-return border">
-        <a href="{%url 'profile'%}"><p><span>Accounts</span></a><span class="nav-sec">Returns & Orders</span></p>
+        <a href="{%url 'profile'%}"><p><span>Accounts</span></a></p><a href="{% url 'order_history' %}"><span class="nav-sec">Returns & Orders</span>
     </div>
 
     <div class="nav-cart border">

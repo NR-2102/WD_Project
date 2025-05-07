@@ -4,51 +4,97 @@
 {% block content %}
 <div class="confirmation-container">
     <div class="confirmation-content">
-        <i class="fas fa-check-circle success-icon"></i>
-        <h1>Order Confirmed!</h1>
-        <p>Thank you for your purchase.</p>
-        <p>Order Number: {{ order.order_number }}</p>
-        <p>Total Amount: ${{ order.total_amount }}</p>
-        <p>Order Date: {{ order.order_date }}</p>
-        
+        <div class="success-header">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h1>Order Confirmed!</h1>
+            <p class="thank-you">Thank you for your purchase.</p>
+        </div>
+
         <div class="order-details">
-            <h2>Order Details</h2>
-            {% for item in order.items.all %}
-            <div class="order-item">
-                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
-                <div class="item-details">
-                    <h3>{{ item.product.name }}</h3>
-                    <p>Quantity: {{ item.quantity }}</p>
-                    <p>Price: ${{ item.price }}</p>
-                    <p>Subtotal: ${{ item.subtotal }}</p>
+            <div class="order-info">
+                <h2>Order Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Order Number:</span>
+                        <span class="value">{{ order.order_number }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Order Date:</span>
+                        <span class="value">{{ order.order_date|date:"F d, Y" }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Total Amount:</span>
+                        <span class="value">₹{{ order.total_amount|floatformat:2 }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Status:</span>
+                        <span class="value status-{{ order.status }}">{{ order.status|title }}</span>
+                    </div>
                 </div>
             </div>
-            {% endfor %}
+
+            <div class="order-items">
+                <h2>Order Items</h2>
+                {% for item in order.items.all %}
+                <div class="order-item">
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                    <div class="item-details">
+                        <h3>{{ item.product.name }}</h3>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Price: ₹{{ item.price|floatformat:2 }}</p>
+                        <p class="subtotal">Subtotal: ₹{{ item.subtotal|floatformat:2 }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="shipping-info">
+                <h2>Shipping Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Address:</span>
+                        <span class="value">{{ order.shipping_address }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Phone:</span>
+                        <span class="value">{{ order.phone_number }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Email:</span>
+                        <span class="value">{{ order.email }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="shipping-info">
-            <h2>Shipping Information</h2>
-            <p>Address: {{ order.shipping_address }}</p>
-            <p>Phone: {{ order.phone_number }}</p>
-            <p>Email: {{ order.email }}</p>
+        <div class="action-buttons">
+            <a href="{% url 'order_history' %}" class="view-orders-btn">
+                <i class="fas fa-list"></i> View All Orders
+            </a>
+            <a href="{% url 'home' %}" class="continue-shopping-btn">
+                <i class="fas fa-shopping-cart"></i> Continue Shopping
+            </a>
         </div>
-
-        <a href="{% url 'home' %}" class="continue-shopping-btn">Continue Shopping</a>
     </div>
 </div>
 
 <style>
     .confirmation-container {
-        max-width: 800px;
+        max-width: 1000px;
         margin: 2rem auto;
-        padding: 2rem;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 0 1rem;
     }
 
     .confirmation-content {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 2rem;
+    }
+
+    .success-header {
         text-align: center;
+        margin-bottom: 2rem;
     }
 
     .success-icon {
@@ -57,9 +103,41 @@
         margin-bottom: 1rem;
     }
 
-    .order-details, .shipping-info {
+    .thank-you {
+        color: #666;
+        font-size: 1.2rem;
+    }
+
+    .order-details {
         margin-top: 2rem;
-        text-align: left;
+    }
+
+    .order-info, .order-items, .shipping-info {
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #666;
+    }
+
+    .value {
+        font-size: 1.1rem;
     }
 
     .order-item {
@@ -76,19 +154,59 @@
         border-radius: 4px;
     }
 
-    .continue-shopping-btn {
-        display: inline-block;
-        margin-top: 2rem;
-        padding: 1rem 2rem;
-        background: #FFC800;
-        color: black;
-        text-decoration: none;
-        border-radius: 4px;
-        font-weight: bold;
+    .item-details {
+        flex: 1;
     }
 
-    .continue-shopping-btn:hover {
-        background: #e6b400;
+    .subtotal {
+        font-weight: bold;
+        color: #28a745;
+    }
+
+    .status-pending { color: #ffc107; }
+    .status-processing { color: #17a2b8; }
+    .status-shipped { color: #007bff; }
+    .status-delivered { color: #28a745; }
+    .status-cancelled { color: #dc3545; }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .view-orders-btn, .continue-shopping-btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .view-orders-btn {
+        background: #007bff;
+        color: white;
+    }
+
+    .continue-shopping-btn {
+        background: #FFC800;
+        color: black;
+    }
+
+    .view-orders-btn:hover, .continue-shopping-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 768px) {
+        .action-buttons {
+            flex-direction: column;
+        }
     }
 </style>
 {% endblock %} 

@@ -5,12 +5,23 @@ from django.contrib import messages
 from .models import Products, Category, Profile, Order, OrderItem
 from django.contrib.auth.models import User
 from decimal import Decimal
+from cart.views import get_or_create_cart
 import uuid
 from datetime import datetime
+from django.db.models import Q
+
 
 def home(request):
-    products = Products.objects.all()
-    return render(request, 'home.html', {'products': products})
+    search_query = request.GET.get('q', '')
+    if search_query:
+        products = Products.objects.filter(
+            Q(name__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(category__name__icontains=search_query)
+        ).distinct()
+    else:
+        products = Products.objects.all()
+    return render(request, 'home.html', {'products': products, 'search_query': search_query})
 
 def login_user(request):
     if request.method == 'POST':
@@ -140,8 +151,6 @@ def change_password(request):
     
     return redirect('profile')
 
-
-
 @login_required
 def cart_summary(request):
     cart = request.session.get('cart', {})
@@ -165,55 +174,51 @@ def cart_summary(request):
 
 @login_required
 def checkout(request):
-    cart = request.session.get('cart', {})
-    if not cart:
+    cart = get_or_create_cart(request)
+    if not cart or not cart.items.exists():
         messages.error(request, 'Your cart is empty')
         return redirect('cart_summary')
 
-    total = Decimal('0.00')
-    items = []
-    for product_id, quantity in cart.items():
-        product = get_object_or_404(Products, id=product_id)
-        item_total = product.price * quantity
-        total += item_total
-        items.append({
-            'product': product,
-            'quantity': quantity,
-            'subtotal': item_total
-        })
+    items = cart.items.all()
+    total_price = cart.get_total_price()
 
     if request.method == 'POST':
-        # Generate unique order number
-        order_number = f"ORD-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:8]}"
-        
-        # Create order
-        order = Order.objects.create(
-            user=request.user,
-            order_number=order_number,
-            total_amount=total,
-            shipping_address=request.POST.get('shipping_address'),
-            phone_number=request.POST.get('phone_number'),
-            email=request.POST.get('email')
-        )
-
-        # Create order items
-        for item in items:
-            OrderItem.objects.create(
-                order=order,
-                product=item['product'],
-                quantity=item['quantity'],
-                price=item['product'].price
+        try:
+            # Generate unique order number
+            order_number = f"ORD-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:8]}"
+            
+            # Create order
+            order = Order.objects.create(
+                user=request.user,
+                order_number=order_number,
+                total_amount=total_price,
+                shipping_address=request.POST.get('shipping_address'),
+                phone_number=request.POST.get('phone_number'),
+                email=request.POST.get('email')
             )
 
-        # Clear cart
-        request.session['cart'] = {}
-        
-        messages.success(request, f'Order placed successfully! Order number: {order_number}')
-        return redirect('order_confirmation', order_number=order_number)
+            # Create order items
+            for item in items:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    quantity=item.quantity,
+                    price=item.product.price_inr
+                )
+
+            # Clear cart
+            cart.items.all().delete()
+            
+            messages.success(request, f'Order placed successfully! Order number: {order_number}')
+            return redirect('order_confirmation', order_number=order_number)
+            
+        except Exception as e:
+            messages.error(request, f'Error processing order: {str(e)}')
+            return redirect('checkout')
 
     return render(request, 'checkout.html', {
         'items': items,
-        'total': total,
+        'total_price': total_price,
         'user': request.user
     })
 
@@ -226,3 +231,22 @@ def order_confirmation(request, order_number):
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by('-order_date')
     return render(request, 'order_history.html', {'orders': orders})
+
+def search_results(request):
+    search_query = request.GET.get('q', '')
+    if search_query:
+        products = Products.objects.filter(
+            Q(name__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(category__name__icontains=search_query)
+        ).distinct()
+    else:
+        products = Products.objects.none()
+    
+    categories = Category.objects.all()
+    
+    return render(request, 'search_results.html', {
+        'products': products,
+        'search_query': search_query,
+        'categories': categories
+    })

@@ -15,20 +15,20 @@
                 <div class="item-details">
                     <h3>{{ item.product.name }}</h3>
                     <p>Quantity: {{ item.quantity }}</p>
-                    <p>Price: ${{ item.product.price }}</p>
-                    <p>Subtotal: ${{ item.subtotal }}</p>
+                    <p>Price: ₹{{ item.product.price_inr|floatformat:2 }}</p>
+                    <p>Subtotal: ₹{{ item.get_total_price|floatformat:2 }}</p>
                 </div>
             </div>
             {% endfor %}
             <div class="total">
-                <h3>Total: ${{ total }}</h3>
+                <h3>Total: ₹{{ total_price|floatformat:2 }}</h3>
             </div>
         </div>
 
         <!-- Shipping Information -->
         <div class="shipping-form">
             <h2>Shipping Information</h2>
-            <form method="POST">
+            <form method="POST" action="{% url 'checkout' %}">
                 {% csrf_token %}
                 
                 <div class="form-group">
@@ -46,7 +46,9 @@
                     <textarea id="shipping_address" name="shipping_address" required>{{ user.profile.address }}</textarea>
                 </div>
 
-                <button type="submit" class="place-order-btn">Place Order</button>
+                <button type="submit" class="checkout-btn">
+                    <i class="fas fa-lock"></i> Place Order
+                </button>
             </form>
         </div>
     </div>
@@ -114,7 +116,7 @@
         border-radius: 4px;
     }
 
-    .place-order-btn {
+    .checkout-btn {
         width: 100%;
         padding: 1rem;
         background: #FFC800;
@@ -124,10 +126,21 @@
         font-size: 1rem;
         font-weight: bold;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
     }
 
-    .place-order-btn:hover {
+    .checkout-btn:hover {
         background: #e6b400;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .checkout-btn i {
+        font-size: 1.2rem;
     }
 
     @media (max-width: 768px) {
