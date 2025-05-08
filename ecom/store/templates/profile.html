@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block panel %}
+<!-- Override the panel block to prevent duplicate navigation -->
+{% endblock %}
+
 {% block content %}
 <div class="profile-container">
     <h1>My Profile</h1>
@@ -63,39 +67,80 @@
             </button>
         </form>
 
-        <hr class="my-4">
+        <!-- Password Change Container -->
+        <div class="password-change-container">
+            <h3 class="section-title">Change Password</h3>
+            
+            <form method="POST" action="{% url 'change_password' %}" class="password-form">
+                {% csrf_token %}
+                
+                <!-- Add a hidden username field to trick browsers -->
+                <input type="text" style="display:none" name="fakeusernameremembered">
 
-        <h3 class="password-section-title">Change Password</h3>
-        <form method="POST" action="{% url 'change_password' %}" class="password-form">
-            {% csrf_token %}
-            <div class="password-field">
-                <label for="current_password" class="form-label">Current Password</label>
-                <div class="input-with-icon">
-                    <i class="fas fa-lock icon-left"></i>
-                    <input type="password" class="password-input" id="current_password" name="current_password" required>
-                    <i class="fas fa-eye-slash toggle-password" data-target="current_password"></i>
+                <div class="password-field">
+                    <label for="current_password">Current Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock icon-left"></i>
+                        <input type="password" 
+                               id="current_password" 
+                               name="current_password" 
+                               class="password-input" 
+                               required 
+                               autocomplete="new-password" 
+                               readonly 
+                               onfocus="this.removeAttribute('readonly');"
+                               value="">
+                        <button type="button" class="toggle-btn" onclick="togglePassword('current_password')">
+                            <i class="fas fa-eye-slash" id="current_password_icon"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="password-field">
-                <label for="new_password" class="form-label">New Password</label>
-                <div class="input-with-icon">
-                    <i class="fas fa-key icon-left"></i>
-                    <input type="password" class="password-input" id="new_password" name="new_password" required>
-                    <i class="fas fa-eye-slash toggle-password" data-target="new_password"></i>
+                
+                <div class="password-field">
+                    <label for="new_password">New Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-key icon-left"></i>
+                        <input type="password" 
+                               id="new_password" 
+                               name="new_password" 
+                               class="password-input" 
+                               required 
+                               autocomplete="new-password" 
+                               readonly 
+                               onfocus="this.removeAttribute('readonly');"
+                               value="">
+                        <button type="button" class="toggle-btn" onclick="togglePassword('new_password')">
+                            <i class="fas fa-eye-slash" id="new_password_icon"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="password-field">
-                <label for="confirm_password" class="form-label">Confirm New Password</label>
-                <div class="input-with-icon">
-                    <i class="fas fa-check-circle icon-left"></i>
-                    <input type="password" class="password-input" id="confirm_password" name="confirm_password" required>
-                    <i class="fas fa-eye-slash toggle-password" data-target="confirm_password"></i>
+                
+                <div class="password-field">
+                    <label for="confirm_password">Confirm New Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-check-circle icon-left"></i>
+                        <input type="password" 
+                               id="confirm_password" 
+                               name="confirm_password" 
+                               class="password-input" 
+                               required 
+                               autocomplete="new-password" 
+                               readonly 
+                               onfocus="this.removeAttribute('readonly');"
+                               value="">
+                        <button type="button" class="toggle-btn" onclick="togglePassword('confirm_password')">
+                            <i class="fas fa-eye-slash" id="confirm_password_icon"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" class="change-password-btn">
-                <i class="fas fa-lock"></i> Change Password
-            </button>
-        </form>
+                
+                <button type="submit" class="change-password-btn">
+                    <i class="fas fa-lock"></i> Change Password
+                </button>
+            </form>
+        </div>
+
+        <!-- The additional-options-container section has been removed -->
     </div>
 </div>
 
@@ -337,12 +382,12 @@
     }
 
     .change-password-btn {
-        padding: 12px 24px;
+        padding: 16px 24px;  /* Increased from 12px to 16px */
         background: linear-gradient(to bottom, #ff9900, #e68a00);
         color: white;
         border: none;
         border-radius: 4px;
-        font-size: 1rem;
+        font-size: 1.1rem;  /* Slightly increased font size */
         font-weight: bold;
         cursor: pointer;
         margin-top: 0.5rem;
@@ -351,6 +396,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 100%;
+        height: 55px;  /* Explicitly set height */
+        line-height: 1.2;  /* Improved line height for better text alignment */
     }
 
     .change-password-btn:hover {
@@ -360,37 +408,335 @@
     }
 
     .change-password-btn i {
-        margin-right: 8px;
+        margin-right: 10px;  /* Slightly increased from 8px */
+        font-size: 1.2rem;  /* Increased icon size */
+    }
+
+    /* Visual Password Section Styles */
+    .visual-password-section {
+        margin-top: 2rem;
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .password-item {
+        margin-bottom: 1rem;
+    }
+
+    .password-item label {
+        font-weight: 600;
+        color: #444;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .password-display {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .password-display input {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 0.8rem;
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .password-display input.minimal-input {
+        border: none;
+        background: none;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .password-display .toggle-view {
+        cursor: pointer;
+        margin-left: 0.5rem;
+    }
+
+    .visual-change-btn {
+        padding: 12px 24px;
+        background: linear-gradient(to bottom, #ff9900, #e68a00);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .visual-change-btn:hover {
+        background: linear-gradient(to bottom, #e68a00, #cc7a00);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .additional-options-container {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        position: relative;
+        padding-left: 15px;
+    }
+    
+    .section-title:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 70%;
+        width: 5px;
+        background-color: #FFC800;
+        border-radius: 2px;
+    }
+    
+    .options-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .option-card {
+        display: flex;
+        align-items: center;
+        padding: 1.2rem;
+        background: #f9f9f9;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .option-card:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+    
+    .option-icon {
+        width: 50px;
+        height: 50px;
+        background: #FFC800;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+    }
+    
+    .option-icon i {
+        font-size: 1.5rem;
+        color: #333;
+    }
+    
+    .option-details {
+        flex: 1;
+    }
+    
+    .option-details h4 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.1rem;
+    }
+    
+    .option-details p {
+        margin: 0 0 1rem 0;
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .option-btn {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #FFC800;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+    
+    .option-btn:hover {
+        background: #e6b400;
+    }
+    
+    @media (max-width: 768px) {
+        .options-content {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Password Change Container Styles */
+    .password-change-container {
+        grid-column: 1 / -1; /* Make it span from first to last column */
+        width: 100%;
+        max-width: none;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        position: relative;
+        padding-left: 15px;
+    }
+    
+    .section-title:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 70%;
+        width: 5px;
+        background-color: #FFC800;
+        border-radius: 2px;
+    }
+    
+    .password-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        width: 100%; /* Ensure the form takes full width of container */
+    }
+    
+    .password-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .password-field label {
+        font-weight: 600;
+        color: #444;
+        font-size: 0.9rem;
+    }
+    
+    .input-with-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
+    .icon-left {
+        position: absolute;
+        left: 12px;
+        color: #777;
+    }
+    
+    .password-input {
+        width: 100%;
+        padding: 12px 40px 12px 40px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .password-input:focus {
+        border-color: #FFC800;
+        box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.2);
+        outline: none;
+    }
+    
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        color: #777;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .toggle-password:hover {
+        color: #333;
+    }
+    
+    .change-password-btn {
+        padding: 16px 24px;  /* Increased from 12px to 16px */
+        background: linear-gradient(to bottom, #ff9900, #e68a00);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1rem;  /* Slightly increased font size */
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%; /* Make button full width */
+        max-width: 100%; /* Remove any max-width constraints */
+    }
+    
+    .change-password-btn:hover {
+        background: linear-gradient(to bottom, #e68a00, #cc7a00);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .change-password-btn i {
+        margin-right: 10px;  /* Slightly increased from 8px */
+        font-size: 1.2rem;  /* Increased icon size */
+    }
+    .toggle-btn {
+        background: none;
+        border: none;
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        padding: 0;
+        color: #777;
+    }
+    
+    .toggle-btn:focus {
+        outline: none;
     }
 </style>
 {% endblock %}
 
 <script>
-    // Wait for the DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        // Select all password toggle icons
-        const toggleIcons = document.querySelectorAll('.toggle-password');
+    function togglePassword(inputId) {
+        const passwordInput = document.getElementById(inputId);
+        const iconElement = document.getElementById(inputId + '_icon');
         
-        // Add click event listener to each icon
-        toggleIcons.forEach(function(icon) {
-            icon.addEventListener('click', function() {
-                // Get the target input field
-                const targetId = this.getAttribute('data-target');
-                const passwordInput = document.getElementById(targetId);
-                
-                // Toggle between password and text type
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    this.classList.remove('fa-eye-slash');
-                    this.classList.add('fa-eye');
-                } else {
-                    passwordInput.type = 'password';
-                    this.classList.remove('fa-eye');
-                    this.classList.add('fa-eye-slash');
-                }
-            });
-        });
-        
-        console.log('Password toggle script loaded');
-    });
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            iconElement.classList.remove('fa-eye-slash');
+            iconElement.classList.add('fa-eye');
+        } else {
+            passwordInput.type = 'password';
+            iconElement.classList.remove('fa-eye');
+            iconElement.classList.add('fa-eye-slash');
+        }
+    }
 </script>

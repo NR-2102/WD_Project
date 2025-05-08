@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block panel %}
+<!-- Override the panel block to prevent duplicate navigation -->
+{% endblock %}
+
 {% block content %}
 <div class="confirmation-container">
     <div class="confirmation-content">
         <div class="success-header">
-            <i class="fas fa-check-circle success-icon"></i>
+            <div class="success-icon-container">
+                <i class="fas fa-check success-icon"></i>
+            </div>
             <h1>Order Confirmed!</h1>
             <p class="thank-you">Thank you for your purchase.</p>
         </div>
 
         <div class="order-details">
             <div class="order-info">
-                <h2>Order Information</h2>
+                <div class="section-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h2>Order Information</h2>
+                </div>
                 <div class="info-grid">
                     <div class="info-item">
                         <span class="label">Order Number:</span>
@@ -34,34 +43,51 @@
             </div>
 
             <div class="order-items">
-                <h2>Order Items</h2>
+                <div class="section-header">
+                    <i class="fas fa-box-open"></i>
+                    <h2>Order Items</h2>
+                </div>
                 {% for item in order.items.all %}
                 <div class="order-item">
                     <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
                     <div class="item-details">
                         <h3>{{ item.product.name }}</h3>
-                        <p>Quantity: {{ item.quantity }}</p>
-                        <p>Price: ₹{{ item.price|floatformat:2 }}</p>
-                        <p class="subtotal">Subtotal: ₹{{ item.subtotal|floatformat:2 }}</p>
+                        <div class="item-meta">
+                            <span class="meta-item"><i class="fas fa-cubes"></i> Quantity: {{ item.quantity }}</span>
+                            <span class="meta-item"><i class="fas fa-tag"></i> Price: ₹{{ item.price|floatformat:2 }}</span>
+                            <span class="meta-item subtotal"><i class="fas fa-calculator"></i> Subtotal: ₹{{ item.subtotal|floatformat:2 }}</span>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
 
             <div class="shipping-info">
-                <h2>Shipping Information</h2>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="label">Address:</span>
-                        <span class="value">{{ order.shipping_address }}</span>
+                <div class="section-header">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h2>Shipping Information</h2>
+                </div>
+                <div class="shipping-grid">
+                    <div class="shipping-item">
+                        <div class="shipping-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="shipping-content">
+                            <span class="label">Address:</span>
+                            <span class="value">{{ order.shipping_address }}</span>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="label">Phone:</span>
-                        <span class="value">{{ order.phone_number }}</span>
+                    <div class="shipping-item">
+                        <div class="shipping-icon"><i class="fas fa-phone"></i></div>
+                        <div class="shipping-content">
+                            <span class="label">Phone:</span>
+                            <span class="value">{{ order.phone_number }}</span>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="label">Email:</span>
-                        <span class="value">{{ order.email }}</span>
+                    <div class="shipping-item">
+                        <div class="shipping-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="shipping-content">
+                            <span class="label">Email:</span>
+                            <span class="value">{{ order.email }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,20 +113,67 @@
 
     .confirmation-content {
         background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .confirmation-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(to right, #28a745, #5cb85c);
     }
 
     .success-header {
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px dashed #e0e0e0;
+        position: relative;
+    }
+
+    .success-icon-container {
+        width: 100px;
+        height: 100px;
+        background: #28a745;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        position: relative;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 15px rgba(40, 167, 69, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+        }
     }
 
     .success-icon {
-        font-size: 4rem;
-        color: #28a745;
-        margin-bottom: 1rem;
+        font-size: 3.5rem;
+        color: white;
+    }
+
+    .success-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 0.5rem;
     }
 
     .thank-you {
@@ -112,16 +185,45 @@
         margin-top: 2rem;
     }
 
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .section-header i {
+        font-size: 1.5rem;
+        margin-right: 0.8rem;
+        color: #FFC800;
+        background: #fff9e6;
+        padding: 0.8rem;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .section-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+    }
+
     .order-info, .order-items, .shipping-info {
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
         padding-bottom: 2rem;
         border-bottom: 1px solid #eee;
+        background: #f9f9f9;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     .info-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+        gap: 1.5rem;
         margin-top: 1rem;
     }
 
@@ -129,38 +231,125 @@
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        /* Removed transition */
+    }
+
+    .info-item:hover {
+        /* Removed transform and box-shadow changes */
     }
 
     .label {
         font-weight: bold;
         color: #666;
+        font-size: 0.9rem;
     }
 
     .value {
         font-size: 1.1rem;
+        color: #333;
     }
 
     .order-item {
         display: flex;
-        gap: 1rem;
-        padding: 1rem 0;
-        border-bottom: 1px solid #eee;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        /* Removed transition */
+    }
+
+    .order-item:hover {
+        /* Removed transform and box-shadow changes */
+    }
+
+    .order-item:last-child {
+        margin-bottom: 0;
     }
 
     .product-image {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 4px;
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+        border-radius: 8px;
+        background: #f9f9f9;
+        padding: 0.5rem;
+        border: 1px solid #eee;
     }
 
     .item-details {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .item-details h3 {
+        margin: 0 0 1rem 0;
+        font-size: 1.3rem;
+        color: #333;
+    }
+
+    .item-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #666;
+    }
+
+    .meta-item i {
+        color: #FFC800;
+        font-size: 0.9rem;
     }
 
     .subtotal {
         font-weight: bold;
         color: #28a745;
+        font-size: 1.1rem;
+    }
+
+    .shipping-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .shipping-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .shipping-icon {
+        width: 40px;
+        height: 40px;
+        background: #e6f7ff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0066cc;
+    }
+
+    .shipping-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     .status-pending { color: #ffc107; }
@@ -171,8 +360,8 @@
 
     .action-buttons {
         display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
+        gap: 1.5rem;
+        margin-top: 2.5rem;
     }
 
     .view-orders-btn, .continue-shopping-btn {
@@ -180,12 +369,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
-        padding: 1rem;
-        border-radius: 4px;
+        gap: 0.8rem;
+        padding: 1.2rem;
+        border-radius: 8px;
         text-decoration: none;
         font-weight: bold;
-        transition: all 0.3s ease;
+        transition: background-color 0.3s ease; /* Changed to only transition background-color */
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
     .view-orders-btn {
@@ -199,13 +389,36 @@
     }
 
     .view-orders-btn:hover, .continue-shopping-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        /* Removed transform */
+        /* Kept box-shadow the same */
+        background-color: #0056b3; /* Darker blue for view orders button */
+    }
+
+    .continue-shopping-btn:hover {
+        background-color: #e6b400; /* Darker yellow for continue shopping button */
+    }
+
+    .view-orders-btn i, .continue-shopping-btn i {
+        font-size: 1.2rem;
     }
 
     @media (max-width: 768px) {
         .action-buttons {
             flex-direction: column;
+        }
+        
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .order-item {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .item-meta {
+            align-items: center;
         }
     }
 </style>

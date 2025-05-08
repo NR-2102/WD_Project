@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block panel %}
+<!-- Override the panel block to prevent duplicate navigation -->
+{% endblock %}
+
 {% block content %}
 <div class="checkout-container">
     <h1>Checkout</h1>
@@ -8,42 +12,59 @@
     <div class="checkout-content">
         <!-- Order Summary -->
         <div class="order-summary">
-            <h2>Order Summary</h2>
+            <div class="section-header">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Order Summary</h2>
+            </div>
             {% for item in items %}
             <div class="order-item">
                 <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
                 <div class="item-details">
                     <h3>{{ item.product.name }}</h3>
-                    <p>Quantity: {{ item.quantity }}</p>
-                    <p>Price: ₹{{ item.product.price_inr|floatformat:2 }}</p>
-                    <p>Subtotal: ₹{{ item.get_total_price|floatformat:2 }}</p>
+                    <div class="item-meta">
+                        <span class="item-quantity">Quantity: {{ item.quantity }}</span>
+                        <span class="item-price">Price: ₹{{ item.product.price_inr|floatformat:2 }}</span>
+                        <span class="item-subtotal">Subtotal: ₹{{ item.get_total_price|floatformat:2 }}</span>
+                    </div>
                 </div>
             </div>
             {% endfor %}
             <div class="total">
-                <h3>Total: ₹{{ total_price|floatformat:2 }}</h3>
+                <h3>Total: <span class="total-amount">₹{{ total_price|floatformat:2 }}</span></h3>
             </div>
         </div>
 
         <!-- Shipping Information -->
         <div class="shipping-form">
-            <h2>Shipping Information</h2>
+            <div class="section-header">
+                <i class="fas fa-shipping-fast"></i>
+                <h2>Shipping Information</h2>
+            </div>
             <form method="POST" action="{% url 'checkout' %}">
                 {% csrf_token %}
                 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="phone_number">Phone Number</label>
-                    <input type="tel" id="phone_number" name="phone_number" value="{{ user.profile.phone_number }}" required>
+                    <div class="input-with-icon">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" id="phone_number" name="phone_number" value="{{ user.profile.phone_number }}" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="shipping_address">Shipping Address</label>
-                    <textarea id="shipping_address" name="shipping_address" required>{{ user.profile.address }}</textarea>
+                    <div class="input-with-icon textarea-container">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <textarea id="shipping_address" name="shipping_address" required>{{ user.profile.address }}</textarea>
+                    </div>
                 </div>
 
                 <button type="submit" class="checkout-btn">
@@ -61,92 +82,275 @@
         padding: 0 1rem;
     }
 
+    .checkout-container h1 {
+        margin-bottom: 2.5rem; /* Increased bottom margin */
+        color: #333;
+        font-weight: 700;
+    }
+
     .checkout-content {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
     }
 
-    .order-summary, .shipping-form {
-        background: white;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /* Enhanced Section Headers */
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f0f0;
     }
 
+    .section-header i {
+        font-size: 1.5rem;
+        margin-right: 0.8rem;
+        color: #0066cc; /* Changed from #FFC800 to blue */
+        background: #e6f2ff; /* Changed from #fff9e6 to light blue */
+        padding: 0.8rem;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .section-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+    }
+
+    /* Restore white background for sections */
+    .order-summary, .shipping-form {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Order Summary Section - keep yellow theme */
+    .order-summary .section-header i {
+        color: #FFC800; /* Keep yellow for order summary icon */
+        background: #fff9e6; /* Keep light yellow background */
+    }
+    
+    .order-summary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(to right, #FFC800, #FFD700); /* Keep yellow gradient */
+    }
+    
     .order-item {
         display: flex;
-        gap: 1rem;
-        padding: 1rem 0;
-        border-bottom: 1px solid #eee;
+        gap: 1.5rem;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        position: relative;
     }
 
     .product-image {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 4px;
+        width: 120px;
+        height: 120px;
+        object-fit: contain;
+        border-radius: 8px;
+        background: #f9f9f9;
+        padding: 0.5rem;
+        border: 1px solid #eee;
+        transition: transform 0.3s ease;
     }
 
     .item-details {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .item-details h3 {
+        margin: 0 0 0.8rem 0;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .item-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .item-quantity, .item-price {
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    .item-subtotal {
+        font-weight: 600;
+        color: #333;
+        font-size: 1rem;
     }
 
     .total {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 2px solid #eee;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px dashed #eee;
+        text-align: right;
     }
 
+    .total h3 {
+        font-size: 1.3rem;
+        color: #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .total-amount {
+        font-size: 1.5rem;
+        color: #28a745;
+        font-weight: 700;
+    }
+
+    /* Shipping Section - change to blue theme */
+    .shipping-form .section-header i {
+        color: #0066cc; /* Blue for shipping icon */
+        background: #e6f2ff; /* Light blue background */
+    }
+    
+    .shipping-form::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(to right, #4A90E2, #5CB3FF); /* Blue gradient */
+    }
+    
     .form-group {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
 
     .form-group label {
         display: block;
-        margin-bottom: 0.5rem;
-        font-weight: bold;
+        margin-bottom: 0.8rem;
+        font-weight: 600;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .input-with-icon {
+        position: relative;
+    }
+
+    .input-with-icon i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+        font-size: 1rem;
+    }
+
+    .textarea-container i {
+        top: 1.5rem;
+        transform: none;
     }
 
     .form-group input,
     .form-group textarea {
         width: 100%;
-        padding: 0.8rem;
+        padding: 1rem 1rem 1rem 3rem;
         border: 1px solid #ddd;
-        border-radius: 4px;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #f9f9f9;
     }
 
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #4A90E2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        background-color: #fff;
+    }
+
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    /* Update checkout button to blue */
     .checkout-btn {
         width: 100%;
-        padding: 1rem;
-        background: #FFC800;
-        color: black;
+        padding: 1.2rem;
+        background: #0066cc; /* Changed from #FFC800 to blue */
+        color: white; /* Changed from black to white for better contrast */
         border: none;
-        border-radius: 4px;
-        font-size: 1rem;
-        font-weight: bold;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 700;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.8rem;
         transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-top: 1rem;
     }
 
     .checkout-btn:hover {
-        background: #e6b400;
+        background: #0052a3; /* Changed from #e6b400 to darker blue */
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
 
     .checkout-btn i {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 
     @media (max-width: 768px) {
         .checkout-content {
             grid-template-columns: 1fr;
         }
+        
+        .order-summary {
+            margin-bottom: 2rem;
+        }
+        
+        .product-image {
+            width: 100px;
+            height: 100px;
+        }
+    }
+
+    /* Update the delivery icon style to use blue theme */
+    .delivery-icon {
+        width: 60px;
+        height: 60px;
+        background-color: #e6f2ff; /* Light blue background */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+    }
+    
+    .delivery-icon i {
+        font-size: 1.8rem;
+        color: #0066cc; /* Medium blue icon color */
+    }
+    
+    /* If there's a border or other yellow elements related to the icon */
+    .delivery-info {
+        border-left: 4px solid #0066cc; /* Blue border instead of yellow */
     }
 </style>
 {% endblock %} 
