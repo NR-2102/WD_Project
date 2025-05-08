@@ -1,0 +1,427 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Amazon Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="{% static 'assets/icon.png' %}" style="border-radius: 100%;">
+    <link rel="stylesheet" href="{% static 'css/home_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home_responsive.css' %}">
+    <style>
+        /* Add these styles to remove border radius from search bar */
+        .nav-search {
+            border-radius: 0 !important;
+        }
+        
+        .search-select {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
+        
+        .search-icon {
+            border-radius: 0 !important;
+        }
+        
+        .search-input {
+            border-radius: 0 !important;
+        }
+        
+        body {
+            background-color: #f5f5f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            flex: 1;
+        }
+        
+        .container {
+            width: 450px; /* Increased from 380px */
+            padding: 30px;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .container:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            /* Removed the transform: translateY(-2px); line */
+        }
+        
+        h1 {
+            font-weight: 600;
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .input-field {
+            position: relative;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus-within {
+            transform: translateY(-2px);
+        }
+        
+        .icon {
+            position: absolute;
+            left: 12px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .toggle-password:hover {
+            transform: scale(1.1);
+        }
+        
+        input {
+            width: 100%;
+            height: 48px;
+            padding: 0 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #fff;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+        
+        .password-field input {
+            background-color: #fff;
+        }
+        
+        .password-field input[type="password"] {
+            letter-spacing: normal; /* Changed from 0.2em to normal */
+        }
+        
+        .submit-btn {
+            width: 100%;
+            height: 48px;
+            background: linear-gradient(135deg, #f0c14b, #ff9f43);
+            border: none;
+            border-radius: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(255, 159, 67, 0.3);
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #ff9f43, #f0c14b);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 159, 67, 0.4);
+        }
+        
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .divider:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #eee;
+        }
+        
+        .divider span {
+            position: relative;
+            background-color: white;
+            padding: 0 15px;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .sign-in-section {
+            text-align: center;
+        }
+        
+        .sign-in-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .sign-in-link {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .sign-in-link:hover {
+            background-color: #f1f3f5;
+            border-color: #ccc;
+        }
+        
+        .messages {
+            margin-bottom: 20px;
+        }
+        
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .alert-error {
+            background-color: #fff5f5;
+            border-left: 4px solid #ff6b6b;
+            color: #e03131;
+        }
+        
+        .alert-success {
+            background-color: #f4fce3;
+            border-left: 4px solid #51cf66;
+            color: #2b8a3e;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    {% include 'navbar.html' %}
+
+    <!-- Main content -->
+    <div class="main-content">
+        <div class="logo-container">
+            <img src="{% static 'assets/logo-a.png' %}" alt="Amazon" class="amazon-logo" style="max-width: 100px; height: auto;">
+        </div>
+        
+        <div class="container">
+            <h1>Create account</h1>
+            
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <form id="registerForm" action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Your name</label>
+                    <div class="input-field">
+                        <svg class="icon user-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-field">
+                        <svg class="icon email-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                            <path d="m22 7-10 7L2 7"></path>
+                        </svg>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-field password-field">
+                        <svg class="icon lock-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="password" name="password" placeholder="At least 6 characters" required autocomplete="new-password">
+                        <svg class="toggle-password" onclick="togglePassword('password')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <label for="password-check">Re-enter password</label>
+                    <div class="input-field password-field">
+                        <svg class="icon lock-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        <input type="password" id="password-check" name="password-check" required autocomplete="new-password">
+                        <svg class="toggle-password" onclick="togglePassword('password-check')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                </div>
+            
+                <button type="submit" class="submit-btn">Create your Amazon account</button>
+            </form>
+            
+            <div class="divider">
+                <span>or</span>
+            </div>
+            
+            <div class="sign-in-section">
+                <p class="sign-in-text">Already have an account?</p>
+                <a href="{% url 'login' %}" class="sign-in-link">
+                    Sign in to your Amazon account
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Back to top button -->
+    <div style="background-color: #37475A; color: white; text-align: center; padding: 15px 0; width: 100%; cursor: pointer;">
+        <a href="#top" style="color: white; text-decoration: none;">Back to top</a>
+    </div>
+
+    <!-- Footer columns section -->
+    <div style="background-color: #232F3E; padding: 30px 0; display: flex; justify-content: space-around; flex-wrap: wrap; color: white; font-size: 14px;">
+        <div style="width: 200px; margin: 0 15px;">
+            <h3 style="font-size: 16px; margin-bottom: 15px;">Get to Know Us</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Careers</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Blog</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">About Amazon</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Investor Relations</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Amazon Devices</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Amazon Science</a></li>
+            </ul>
+        </div>
+        
+        <div style="width: 200px; margin: 0 15px;">
+            <h3 style="font-size: 16px; margin-bottom: 15px;">Make Money with Us</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Sell products on Amazon</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Sell on Amazon Business</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Sell apps on Amazon</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Become an Affiliate</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Advertise Your Products</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Self-Publish with Us</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Host an Amazon Hub</a></li>
+            </ul>
+        </div>
+        
+        <div style="width: 200px; margin: 0 15px;">
+            <h3 style="font-size: 16px; margin-bottom: 15px;">Amazon Payment Products</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Amazon Business Card</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Shop with Points</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Reload Your Balance</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Amazon Currency Converter</a></li>
+            </ul>
+        </div>
+        
+        <div style="width: 200px; margin: 0 15px;">
+            <h3 style="font-size: 16px; margin-bottom: 15px;">Let Us Help You</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Amazon and COVID-19</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Your Account</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Your Orders</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Shipping Rates & Policies</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Returns & Replacements</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Manage Your Content and Devices</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Amazon Assistant</a></li>
+                <li style="margin-bottom: 10px;"><a href="#" style="color: #DDD; text-decoration: none;">Help</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Language and region selector -->
+    <div style="background-color: #232F3E; padding: 20px 0; text-align: center; border-top: 1px solid #3a4553;">
+        <a href="#" style="display: inline-block; margin: 0 10px; padding: 10px 20px; background-color: #131A22; border: 1px solid #848688; border-radius: 3px; color: white; text-decoration: none; font-size: 13px;">
+            <i class="fas fa-globe" style="color: #00a8e1; margin-right: 8px;"></i> English
+        </a>
+        <a href="#" style="display: inline-block; margin: 0 10px; padding: 10px 20px; background-color: #131A22; border: 1px solid #848688; border-radius: 3px; color: white; text-decoration: none; font-size: 13px;">
+            <span style="display: inline-block; width: 16px; height: 16px; background-color: #131A22; color: white; margin-right: 8px; text-align: center; font-weight: bold; vertical-align: middle;">$</span> USD - U.S. Dollar
+        </a>
+        <a href="#" style="display: inline-block; margin: 0 10px; padding: 10px 20px; background-color: #131A22; border: 1px solid #848688; border-radius: 3px; color: white; text-decoration: none; font-size: 13px;">
+            <img src="{% static 'assets/us-flag.png' %}" alt="US Flag" style="width: 16px; height: auto; margin-right: 8px; vertical-align: middle;"> United States
+        </a>
+    </div>
+
+    <!-- Copyright footer -->
+    <div style="background-color: #131A22; padding: 20px 0; text-align: center; font-size: 12px; color: #DDD;">
+        <div>
+            <a href="#" style="color: #DDD; text-decoration: none; margin: 0 10px;">Conditions</a>
+            <a href="#" style="color: #DDD; text-decoration: none; margin: 0 10px;">Privacy Notice</a>
+            <a href="#" style="color: #DDD; text-decoration: none; margin: 0 10px;">Your Ads Privacy</a>
+        </div>
+        <div style="color: #999; margin-top: 10px;">
+            © 1996-2024, Amazon.com, Inc. or its affiliates
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function togglePassword(inputId) {
+        const passwordInput = document.getElementById(inputId);
+        const toggleIcon = passwordInput.nextElementSibling;
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>`;
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.innerHTML = `<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle>`;
+        }
+    }
+</script>

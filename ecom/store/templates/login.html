@@ -1,0 +1,353 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block panel %}
+<!-- Override the panel block to prevent duplicate navigation -->
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-box">
+        <div class="logo-container">
+            <img src="{% static 'assets/logo-a.png' %}" alt="Amazon" class="amazon-logo">
+        </div>
+        
+        <div class="form-container">
+            <h1>Sign in</h1>
+            
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <i class="input-icon fa fa-envelope"></i>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="input-icon fa fa-lock"></i>
+                        <input type="password" id="password" name="password" required autocomplete="new-password">
+                        <i class="toggle-password fa fa-eye-slash" onclick="togglePassword()"></i>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+            
+            <div class="divider">
+                <span>New to Amazon?</span>
+            </div>
+            
+            <div class="create-account">
+                <a href="{% url 'register' %}" class="create-btn">
+                    Create your Amazon account
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+    
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        padding: 20px;
+        background-color: #f0f2f5;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f2f5;
+    }
+    
+    .login-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 400px;
+        width: 100%;
+    }
+    
+    .logo-container {
+        position: relative;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    
+    .logo-text {
+        font-family: 'Poppins', Arial, sans-serif;
+        font-size: 50px;
+        font-weight: bold;
+        color: #131921;
+        letter-spacing: -1px;
+    }
+    
+    .smile {
+        position: absolute;
+        width: 100px;
+        height: 30px;
+        border: solid 5px #FF9900;
+        border-color: transparent transparent #FF9900 transparent;
+        border-radius: 50%;
+        bottom: -3.89px;
+        left: 43px;
+        transform: rotate(1deg);
+    }
+    
+    .arrow {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #FF9900;
+        bottom: -2.6px;
+        left: 130px;
+        transform: rotate(-14deg);
+    }
+    
+    .form-container {
+        width: 100%;
+        padding: 30px;
+        border-radius: 0;
+        background-color: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .form-container:hover {
+        box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    }
+    
+    h1 {
+        font-family: 'Poppins', Arial, sans-serif;
+        font-weight: 600;
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #131921;
+        text-align: center;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    label {
+        display: block;
+        font-family: 'Poppins', Arial, sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #333;
+    }
+    
+    .input-wrapper {
+        position: relative;
+    }
+    
+    .input-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+    }
+    
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        cursor: pointer;
+    }
+    
+    input {
+        width: 100%;
+        height: 45px;
+        padding: 10px 40px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: 'Poppins', Arial, sans-serif;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+    
+    input:focus {
+        outline: none;
+        border-color: #FF9900;
+        box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.2);
+    }
+    
+    .submit-btn {
+        width: 100%;
+        height: 45px;
+        background: linear-gradient(to right, #FF9900, #FFC107);
+        border: none;
+        border-radius: 8px;
+        color: #131921;
+        font-family: 'Poppins', Arial, sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+    
+    .submit-btn:hover {
+        background: linear-gradient(to right, #FFC107, #FF9900);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 153, 0, 0.3);
+    }
+    
+    .divider {
+        text-align: center;
+        position: relative;
+        margin: 30px 0;
+    }
+    
+    .divider span {
+        display: inline-block;
+        padding: 0 15px;
+        background-color: white;
+        position: relative;
+        z-index: 1;
+        color: #666;
+        font-family: 'Poppins', Arial, sans-serif;
+        font-size: 14px;
+    }
+    
+    .divider:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: #eee;
+    }
+    
+    .create-account {
+        text-align: center;
+    }
+    
+    .create-btn {
+        display: inline-block;
+        width: 100%;
+        padding: 12px 0;
+        background-color: #f7f8fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        color: #131921;
+        text-decoration: none;
+        font-family: 'Poppins', Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .create-btn:hover {
+        background-color: #eaecee;
+        border-color: #ccc;
+    }
+    
+    .messages {
+        margin-bottom: 20px;
+    }
+    
+    .alert {
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-family: 'Poppins', Arial, sans-serif;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .alert:before {
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        margin-right: 10px;
+    }
+    
+    .alert-error {
+        background-color: #fff2f2;
+        color: #e74c3c;
+        border-left: 4px solid #e74c3c;
+    }
+    
+    .alert-error:before {
+        content: "\f06a";
+    }
+    
+    .alert-success {
+        background-color: #f0fff4;
+        color: #2ecc71;
+        border-left: 4px solid #2ecc71;
+    }
+    
+    .alert-success:before {
+        content: "\f058";
+    }
+    .amazon-logo {
+        max-width: 140px;
+        height: auto;
+    }
+    
+    /* Add this to override the search bar styles in the login page */
+    .nav-search {
+        border-radius: 0 !important;
+    }
+    
+    .search-select {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+    
+    .search-icon {
+        border-radius: 0 !important;
+    }
+    
+    .search-input {
+        border-radius: 0 !important;
+    }
+</style>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.querySelector('.toggle-password');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        }
+    }
+</script>
+{% endblock %}

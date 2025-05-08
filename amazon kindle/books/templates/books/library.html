@@ -1,0 +1,101 @@
+{% extends 'books/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="library-container">
+    <h1>My Library</h1>
+    
+    <div class="books-grid">
+        {% for book in library.books.all %}
+            <div class="book-card">
+                <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-cover">
+                <div class="book-info">
+                    <h3>{{ book.title }}</h3>
+                    <p class="author">by {{ book.author }}</p>
+                    <div class="book-actions">
+                        <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">
+                            <i class="fas fa-book-open me-1"></i> Read
+                        </a>
+                        <a href="{% url 'remove_from_library' book.id %}" class="btn btn-danger">
+                            <i class="fas fa-minus-circle me-1"></i> Remove
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-library">
+                <p>Your library is empty</p>
+                <a href="{% url 'home' %}" class="btn btn-primary">Browse Books</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .library-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .library-container h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .book-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .book-cover {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    .book-info {
+        padding: 15px;
+    }
+
+    .book-info h3 {
+        font-size: 18px;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .author {
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .book-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .empty-library {
+        text-align: center;
+        padding: 40px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        grid-column: 1 / -1;
+    }
+
+    .empty-library p {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %} 

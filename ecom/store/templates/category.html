@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block panel %}
+<!-- Override the panel block to prevent duplication -->
+{% endblock %}
+
+{% block content %}
+{% if category_name == 'Clothes' %}
+<div class="fashion-header">
+    <h1>Fashion</h1>
+    <p>Explore our wide range of fashion products</p>
+</div>
+{% endif %}
+
+<div class="category-container">
+    {% if category_name == 'Clothes' %}
+    <div class="fashion-section">
+        <h2 class="section-title">Fashion Categories</h2>
+        <div class="fashion-grid">
+            <div class="fashion-card">
+                <div class="image-container">
+                    <img src="{% static 'assets/sunglasses.jpg' %}" alt="Sunglasses">
+                </div>
+                <div class="category-name">Sunglasses</div>
+            </div>
+            <div class="fashion-card">
+                <div class="image-container">
+                    <img src="{% static 'assets/watches.jpg' %}" alt="Watches">
+                </div>
+                <div class="category-name">Watches</div>
+            </div>
+            <div class="fashion-card">
+                <div class="image-container">
+                    <img src="{% static 'assets/apparel.jpg' %}" alt="Apparel">
+                </div>
+                <div class="category-name">Apparel</div>
+            </div>
+            <div class="fashion-card">
+                <div class="image-container">
+                    <img src="{% static 'assets/shoes.jpg' %}" alt="Shoes">
+                </div>
+                <div class="category-name">Shoes</div>
+            </div>
+            <div class="fashion-card">
+                <div class="image-container">
+                    <img src="{% static 'assets/jewellery.jpg' %}" alt="Jewellery">
+                </div>
+                <div class="category-name">Jewellery</div>
+            </div>
+            <div class="fashion-card">
+                <div class="image-container">
+                    <img src="{% static 'assets/bags.webp' %}" alt="Bags & Luggage">
+                </div>
+                <div class="category-name">Bags & Luggage</div>
+            </div>
+            <div class="fashion-card">
+                <div class="image-container">
+                    <img src="{% static 'assets/bags.jpg' %}" alt="Handbags & Clutches">
+                </div>
+                <div class="category-name">Handbags & Clutches</div>
+            </div>
+            <div class="fashion-card">
+                <div class="image-container">
+                    <img src="{% static 'assets/kids-apparel.jpg' %}" alt="Kid's apparel">
+                </div>
+                <div class="category-name">Kid's apparel</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Added Trending in Fashion section -->
+    <div class="trending-section">
+        <h2>Trending in Fashion</h2>
+        <p>Discover the latest fashion trends and styles</p>
+        <button class="browse-all-btn">Browse All Fashion</button>
+    </div>
+    {% endif %}
+    
+    <!-- Removed the products display section -->
+    <div class="no-products" style="display: none;">
+        <p>No products found in this category.</p>
+        <a href="{% url 'home' %}" class="back-to-home">Back to Home</a>
+    </div>
+</div>
+
+<style>
+    .fashion-header {
+        text-align: center;
+        padding: 20px 0;
+        background-color: #ffffff;
+        border-bottom: 1px solid #e3e3e3;
+    }
+    
+    .fashion-header h1 {
+        font-size: 32px;
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+    
+    .fashion-header p {
+        color: #555;
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+    
+    .category-container {
+        max-width: 100%;
+        margin: 20px auto;
+        padding: 0 20px;
+    }
+    
+    .fashion-section {
+        background-color: white;
+        padding: 20px;
+        margin-bottom: 30px;
+        border: none;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        border-radius: 2px;
+        width: 100%;
+    }
+    
+    .section-title {
+        font-size: 25px;
+        margin: 0 0 20px;
+        text-align: left;
+        font-weight: 600;
+        padding-left: 10px;
+        color: #333;
+    }
+    
+    .fashion-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0 5px;
+    }
+    
+    .fashion-card {
+        width: 24%;
+        margin-bottom: 20px;
+        border: 1px solid #e3e3e3;
+        background-color: white;
+        text-align: center;
+        border-radius: 2px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .fashion-card:hover {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    }
+    
+    .image-container {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 10px;
+    }
+    
+    .image-container img {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain;
+        margin-top: 5px;
+    }
+    
+    .category-name {
+        padding: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .trending-section {
+        background-color: white;
+        padding: 20px;
+        text-align: center;
+        margin: 30px 0;
+        border: 1px solid #e3e3e3;
+    }
+    
+    .trending-section h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .trending-section p {
+        color: #555;
+        margin-bottom: 15px;
+        font-size: 16px;
+    }
+    
+    .browse-all-btn {
+        background-color: #FFD814;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 10px;  /* Added !important to override any other styles */
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        color: #000;
+        box-shadow: none;
+        display: inline-block;
+        min-width: 170px;
+        height: 40px;
+        text-align: center;
+        margin: 10px auto;
+        font-family: Arial, sans-serif;
+        line-height: 16px;
+    }
+    
+    .browse-all-btn:hover {
+        background-color: #F7CA00;
+    }
+    
+    @media (max-width: 992px) {
+        .fashion-card {
+            width: 32%;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .fashion-card {
+            width: 48%;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .fashion-card {
+            width: 100%;
+        }
+    }
+    
+    /* Hide footer elements */
+    footer, .foot-panel1, .foot-panel2, .foot-panel3, .foot-panel4 {
+        display: none !important;
+    }
+    
+    /* Hide product listings */
+    .products-grid, .product-card {
+        display: none !important;
+    }
+</style>
+{% endblock %}
+
+{% block footer %}
+<!-- Empty footer block -->
+{% endblock %}

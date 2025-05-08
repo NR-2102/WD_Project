@@ -1,0 +1,15 @@
+Introduction
+
+The Little Prince
+
+By Antoine de Saint-Exupéry
+
+Welcome to this exploration of the little prince. This book aims to provide readers with a comprehensive understanding of the subject, combining theoretical knowledge with practical insights.
+
+Chapter 1: Getting Started
+
+The journey begins here, with an introduction to the fundamental concepts that form the foundation of our exploration.
+
+[Sample content continues...]
+
+This is a sample content file for The Little Prince. In a real application, this would contain the actual book content.

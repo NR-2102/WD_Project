@@ -1,0 +1,396 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="profile-container">
+    <h1>My Profile</h1>
+    
+    <div class="profile-content">
+        <!-- Profile Picture Section -->
+        <div class="profile-picture-section">
+            {% if user.profile.profile_picture %}
+                <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+            {% else %}
+                <div class="profile-picture-placeholder">
+                    <i class="fas fa-user"></i>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Profile Form -->
+        <form method="POST" enctype="multipart/form-data" class="profile-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Phone Number</label>
+                <input type="tel" id="phone_number" name="phone_number" value="{{ user.profile.phone_number }}">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" rows="3">{{ user.profile.address }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="profile_picture">Profile Picture</label>
+                <div class="custom-file-upload">
+                    <input type="file" id="profile_picture" name="profile_picture" accept="image/*" class="file-input">
+                    <label for="profile_picture" class="file-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span class="file-text">Choose a file</span>
+                    </label>
+                    <div class="file-name">No file selected</div>
+                </div>
+            </div>
+
+            <button type="submit" class="update-profile-btn">
+                <i class="fas fa-user-edit"></i> Update Profile
+            </button>
+        </form>
+
+        <hr class="my-4">
+
+        <h3 class="password-section-title">Change Password</h3>
+        <form method="POST" action="{% url 'change_password' %}" class="password-form">
+            {% csrf_token %}
+            <div class="password-field">
+                <label for="current_password" class="form-label">Current Password</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock icon-left"></i>
+                    <input type="password" class="password-input" id="current_password" name="current_password" required>
+                    <i class="fas fa-eye-slash toggle-password" data-target="current_password"></i>
+                </div>
+            </div>
+            <div class="password-field">
+                <label for="new_password" class="form-label">New Password</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-key icon-left"></i>
+                    <input type="password" class="password-input" id="new_password" name="new_password" required>
+                    <i class="fas fa-eye-slash toggle-password" data-target="new_password"></i>
+                </div>
+            </div>
+            <div class="password-field">
+                <label for="confirm_password" class="form-label">Confirm New Password</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-check-circle icon-left"></i>
+                    <input type="password" class="password-input" id="confirm_password" name="confirm_password" required>
+                    <i class="fas fa-eye-slash toggle-password" data-target="confirm_password"></i>
+                </div>
+            </div>
+            <button type="submit" class="change-password-btn">
+                <i class="fas fa-lock"></i> Change Password
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .profile-content {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .profile-picture-section {
+        text-align: center;
+    }
+
+    .profile-picture {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #FFC800;
+    }
+
+    .profile-picture-placeholder {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: #666;
+        border: 3px solid #FFC800;
+    }
+
+    .profile-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+    .update-profile-btn {
+        padding: 16px 24px;  /* Increased from 12px to 16px */
+        background: linear-gradient(to bottom, #FFC800, #e6b400);
+        color: #333;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1rem;  /* Slightly increased font size */
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 1.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 55px;  /* Explicitly set height */
+        line-height: 1.2;  /* Improved line height for better text alignment */
+    }
+
+    .update-profile-btn:hover {
+        background: linear-gradient(to bottom, #e6b400, #d9a700);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .update-profile-btn i {
+        margin-right: 10px;  /* Slightly increased from 8px */
+        font-size: 1.2rem;  /* Increased icon size */
+    }
+
+    .custom-file-upload {
+        margin-top: 8px;
+        position: relative;
+    }
+    
+    .file-input {
+        position: absolute;
+        left: -9999px;
+    }
+    
+    .file-label {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #FFC800;
+        color: black;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .file-label:hover {
+        background: #e6b400;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .file-label i {
+        margin-right: 8px;
+    }
+    
+    .file-name {
+        margin-top: 8px;
+        padding: 8px 12px;
+        background: #f5f5f5;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        color: #555;
+        border: 1px dashed #ddd;
+    }
+
+    @media (max-width: 768px) {
+        .profile-content {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-picture-section {
+            margin-bottom: 2rem;
+        }
+    }
+
+    /* Password Section Styles */
+    .password-section-title {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        position: relative;
+        padding-left: 15px;
+    }
+
+    .password-section-title:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 70%;
+        width: 5px;
+        background-color: #FFC800;
+        border-radius: 2px;
+    }
+
+    .password-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .password-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .password-field label {
+        font-weight: 600;
+        color: #444;
+        font-size: 0.9rem;
+    }
+
+    .input-with-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .icon-left {
+        position: absolute;
+        left: 12px;
+        color: #777;
+    }
+
+    .password-input {
+        width: 100%;
+        padding: 12px 40px 12px 40px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .password-input:focus {
+        border-color: #FFC800;
+        box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.2);
+        outline: none;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        color: #777;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .toggle-password:hover {
+        color: #333;
+    }
+
+    .change-password-btn {
+        padding: 12px 24px;
+        background: linear-gradient(to bottom, #ff9900, #e68a00);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .change-password-btn:hover {
+        background: linear-gradient(to bottom, #e68a00, #cc7a00);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .change-password-btn i {
+        margin-right: 8px;
+    }
+</style>
+{% endblock %}
+
+<script>
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all password toggle icons
+        const toggleIcons = document.querySelectorAll('.toggle-password');
+        
+        // Add click event listener to each icon
+        toggleIcons.forEach(function(icon) {
+            icon.addEventListener('click', function() {
+                // Get the target input field
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                
+                // Toggle between password and text type
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                } else {
+                    passwordInput.type = 'password';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                }
+            });
+        });
+        
+        console.log('Password toggle script loaded');
+    });
+</script>

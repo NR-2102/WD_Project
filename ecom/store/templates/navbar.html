@@ -1,0 +1,452 @@
+<style>
+    .navbar {
+        height: 60px;
+        background-color: #131921;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        color: white;
+    }
+
+    .nav-logo {
+        height: 50px;
+        width: 100px;
+    }
+
+    .logo {
+        height: 50px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .logo img {
+        height: 100%;
+        width: auto;
+    }
+
+    .border {
+        border: 1.5px solid transparent;
+    }
+
+    .border:hover {
+        border: 1.5px solid white;
+    }
+
+    .nav-address {
+        padding: 0 9px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .add-first {
+        color: #cccccc;
+        font-size: 0.85rem;
+        margin-left: 0;
+    }
+
+    .add-sec {
+        font-size: 1rem;
+        margin-left: 3px;
+    }
+
+    .add-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-search {
+        display: flex;
+        justify-content: space-evenly;
+        background-color: pink;
+        width: 620px;
+        height: 40px;
+        border-radius: 0; /* Changed from 4px to 0 */
+    }
+
+    .search-select {
+        background-color: #f3f3f3;
+        width: 50px;
+        text-align: center;
+        border: none;
+        border-right: 1px solid #cdcdcd;
+        color: #555;
+        font-size: 0.8rem;
+        cursor: pointer;
+        border-top-left-radius: 0; /* Changed from 4px to 0 */
+        border-bottom-left-radius: 0; /* Changed from 4px to 0 */
+        padding-left: 5px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 5px center;
+        padding-right: 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 40px;
+    }
+    
+    .search-select:focus {
+        outline: none;
+    }
+    
+    .search-select option {
+        padding: 10px 15px;
+        background-color: white;
+        color: #0F1111;
+        border: none;
+        text-align: center;
+    }
+    
+    /* Custom styling for dropdown when opened */
+    select.search-select:focus {
+        box-shadow: 0 0 5px 2px rgba(0,0,0,0.1);
+    }
+    
+    /* Improve dropdown appearance in different browsers */
+    @-moz-document url-prefix() {
+        .search-select {
+            background-position: right 8px center;
+        }
+    }
+    
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        .search-select {
+            padding-right: 25px;
+        }
+        
+        .search-select option {
+            padding: 10px 15px;
+        }
+    }
+
+    .search-input {
+        width: 100%;
+        font-size: 1rem;
+        border: none;
+    }
+
+    .search-icon {
+        width: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        background-color: #FFBD59;
+        border-radius: 0; /* Changed from "0 4px 4px 0" to 0 */
+        color: #131921;
+    }
+
+    .search-icon:hover {
+        background-color: #F0B14F;
+    }
+
+    .nav-signin {
+        padding: 0 9px;
+    }
+
+    .nav-signin span.add-first {
+        color: #cccccc;
+        font-size: 0.75rem;
+        display: block;
+    }
+
+    .nav-signin p.nav-sec {
+        margin: 0;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: white;
+    }
+
+    .nav-signin a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .nav-return {
+        padding: 0 9px;
+    }
+
+    .nav-return span.add-first {
+        color: #cccccc;
+        font-size: 0.75rem;
+        display: block;
+    }
+
+    .nav-return p.nav-sec {
+        margin: 0;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: white;
+    }
+
+    .nav-sec {
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .nav-cart {
+        padding: 0 9px;
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-cart i {
+        font-size: 30px;
+    }
+
+    .nav-cart span {
+        margin-left: 5px;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .user-dropdown {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        border-radius: 4px;
+        padding: 10px 0;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        transition: background-color 0.3s;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+        color: #131921;
+    }
+
+    .user-dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .dropdown-item i {
+        width: 20px;
+    }
+
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .logo-img {
+        height: 50px;
+        width: auto;
+    }
+
+    .nav-language {
+        display: flex;
+        align-items: center;
+        padding: 0 9px;
+        cursor: pointer;
+    }
+    
+    .language-selector {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: white;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+    
+    .flag-icon {
+        height: 16px;
+        width: auto;
+        border-radius: 2px;
+    }
+
+    /* Add these styles for the dropdown */
+    .panel-all {
+        position: relative;
+    }
+    
+    .panel-dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #fff;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1000;
+        border-radius: 3px;
+    }
+    
+    .panel-dropdown a {
+        color: #333;
+        padding: 10px 15px;
+        text-decoration: none;
+        display: block;
+        font-size: 14px;
+    }
+    
+    .panel-dropdown a:hover {
+        background-color: #f1f1f1;
+    }
+    
+    .panel-all:hover .panel-dropdown {
+        display: block;
+    }
+</style>
+
+{%load static%}
+<div class="navbar">
+    <div class="nav-logo border">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'assets/amazon_logo.png' %}" alt="Amazon Logo" class="logo-img">
+        </a>
+    </div>
+
+    <div class="nav-address border">
+        <p class="add-first">Delivering to</p>
+        <div class="add-icon">
+            <i class="fa-solid fa-location-dot"></i>
+            <p class="add-sec">India</p>
+        </div>
+    </div>
+
+    <div class="nav-search" style="display: flex; flex: 1; max-width: 720px; height: 40px; border-radius: 4px; overflow: hidden; margin: 0 10px; border: none;">
+        <form method="GET" action="{% url 'search_results' %}" style="display: flex; width: 100%;">
+            <div style="display: flex; align-items: center; background-color: #f3f3f3; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-right: 1px solid #cdcdcd;">
+                <select class="search-select" style="background-color: transparent; width: 50px; text-align: center; border: none; color: #555; font-size: 0.8rem; cursor: pointer; height: 40px; padding: 0 20px 0 5px;">
+                    <option>All</option>
+                    <option>Electronics</option>
+                    <option>Computers</option>
+                    <option>Fashion</option>
+                    <option>Books</option>
+                    <option>Toys & Games</option>
+                    <option>Home & Kitchen</option>
+                    <option>Beauty</option>
+                    <option>Sports</option>
+                    <option>Automotive</option>
+                    <option>Health</option>
+                    <option>Grocery</option>
+                    <option>Baby</option>
+                    <option>Pet Supplies</option>
+                    <option>Office Products</option>
+                </select>
+            </div>
+            <input type="text" name="q" placeholder="Search Amazon" class="search-input" value="{{ request.GET.q }}" style="width: 100%; font-size: 1rem; border: none; padding-left: 10px; outline: none; height: 100%; background-color: white;">
+            <button type="submit" class="search-icon" style="width: 45px; height: 40px; display: flex; justify-content: center; align-items: center; background-color: #FFBD59; border: none; color: #131921; cursor: pointer; border-radius: 0 4px 4px 0;">
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 1.2rem;"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="nav-language border">
+        <div class="language-selector">
+            <img src="{% static 'assets/us-flag.png' %}" alt="US Flag" class="flag-icon">
+            <span>EN</span>
+            <i class="fa-solid fa-caret-down" style="font-size: 12px;"></i>
+        </div>
+    </div>
+
+    <div class="nav-signin border">
+        {% if user.is_authenticated %}
+            <div class="user-dropdown" style="padding-top: 15px;">
+                <span class="add-first">Hello, {{ user.first_name }}</span>
+                <p class="nav-sec">Account & Lists</p>
+                <div class="dropdown-content">
+                    <a href="{% url 'profile' %}" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        Your Account
+                    </a>
+                    <a href="{% url 'order_history' %}" class="dropdown-item">
+                        <i class="fas fa-box"></i>
+                        Your Orders
+                    </a>
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sign Out
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}" style="text-decoration: none; color: inherit;">
+                <div style="padding-top: 12px;">
+                    <span class="add-first">Hello, Sign in</span>
+                    <p class="nav-sec">Account & Lists</p>
+                </div>
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="nav-return border">
+        <div style="padding-top: 12px;">
+            <span class="add-first">Returns</span>
+            <p class="nav-sec">& Orders</p>
+        </div>
+    </div>
+
+    <div class="nav-cart border">
+        <a href="{% url 'cart_summary' %}" class="nav-link">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Cart</span>
+        </a>
+    </div>
+</div>
+<div class="panel" style="height: 40px; background-color: #1A2433; display: flex; color: white; align-items: center; padding: 0 10px;">
+    <div class="panel-all" style="display: flex; align-items: center; margin-right: 15px; cursor: pointer;">
+        <i class="fa-solid fa-bars" style="margin-right: 5px;"></i>
+        <span style="font-weight: bold;">All</span>
+        <div class="panel-dropdown">
+            <a href="#">All</a>
+            <a href="#">Electronics</a>
+            <a href="#">Computers</a>
+            <a href="#">Fashion</a>
+            <a href="#">Books</a>
+            <a href="#">Toys & Games</a>
+            <a href="#">Home & Kitchen</a>
+            <a href="#">Beauty</a>
+            <a href="#">Sports</a>
+            <a href="#">Automotive</a>
+            <a href="#">Health</a>
+            <a href="#">Grocery</a>
+            <a href="#">Baby</a>
+            <a href="#">Pet Supplies</a>
+            <a href="#">Office Products</a>
+        </div>
+    </div>
+    <div class="panel-ops" style="display: flex; gap: 20px; font-size: 0.85rem; margin-left: 100px;">
+        <p><a href="#">Today's Deals</a></p>
+        <p><a href="#">Prime Video</a></p>
+        <p><a href="#">Registry</a></p>
+        <p><a href="#">Gift Cards</a></p>
+        <p><a href="#">Customer Service</a></p>
+        <p><a href="#">Sell</a></p>
+    </div>
+</div>

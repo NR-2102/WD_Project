@@ -1,0 +1,332 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block panel %}
+{% endblock %}
+
+{% block content %}
+    <div class="marquee-container" style="border: none; margin: 0; padding: 0;">
+        <div class="marquee-content">
+            <img src="{% static 'assets/Banner-1.webp' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-2.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-3.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-4.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-5.jpg' %}" alt="Error..">
+
+            <img src="{% static 'assets/Banner-1.webp' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-2.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-3.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-4.jpg' %}" alt="Error..">
+            <img src="{% static 'assets/Banner-5.jpg' %}" alt="Error..">
+        </div>
+    </div>
+
+    <!-- Removed the bar section that was here -->
+
+    <div id="container2" style="background-color: #ffffff !important; padding: 20px; margin-top: 20px;">
+        <h2 style="margin-bottom: 15px; font-size: 27px; font-weight: 600;">Products..</h2>
+        <div class="c1" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: flex-start;">
+            {% if products %}
+                {% for product in products %}
+                    <div class="product-card">
+                        <a href="{% url 'product' product.id %}" style="text-decoration: none; color: inherit;"> 
+                            <div class="product-image-container">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                            </div>
+                            <div class="product-details">
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <p class="product-price">₹{{ product.price_inr|floatformat:2 }}</p>
+                                <form method="POST" action="{% url 'cart_add' %}" class="add-to-cart-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                                </form>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- Smart Watch Card -->
+            <div class="product-card">
+                <a href="#" style="text-decoration: none; color: inherit;"> 
+                    <div class="product-image-container">
+                        <img src="{% static 'assets/smart-watch.jpg' %}" alt="Smart Watch" class="product-image">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">Smart Watch</h3>
+                        <p class="product-price">₹2,499.00</p>
+                        <form method="POST" action="{% url 'cart_add' %}" class="add-to-cart-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="1">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                        </form>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Headphones Card -->
+            <div class="product-card">
+                <a href="#" style="text-decoration: none; color: inherit;"> 
+                    <div class="product-image-container">
+                        <img src="{% static 'assets/headphones.jpg' %}" alt="Headphones" class="product-image">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">Headphones</h3>
+                        <p class="product-price">₹1,299.00</p>
+                        <form method="POST" action="{% url 'cart_add' %}" class="add-to-cart-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="2">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                        </form>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Laptop Backpack Card -->
+            <div class="product-card">
+                <a href="#" style="text-decoration: none; color: inherit;"> 
+                    <div class="product-image-container">
+                        <img src="{% static 'assets/laptop-backpack.jpg' %}" alt="Laptop Backpack" class="product-image">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">Laptop Backpack</h3>
+                        <p class="product-price">₹999.00</p>
+                        <form method="POST" action="{% url 'cart_add' %}" class="add-to-cart-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="3">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                        </form>
+                    </div>
+                </a>
+            </div>
+            
+            {% if not products %}
+                <div class="no-products">
+                    <h2>No products found</h2>
+                    {% if request.GET.search %}
+                        <p>No products match your search "{{ request.GET.search }}"</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- New Category Section -->
+    <div class="categories-container" style="background-color: #ffffff; padding: 20px; margin: 20px 11px 0 11px; border: 1px solid #e3e3e3; border-radius: 0;">
+        <h2 style="margin-bottom: 15px; font-size: 27px; font-weight: 600;">Categories..</h2>
+        <div class="categories-grid" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;">
+            <div class="category-card" style="width: 24%; border: 1px solid #e3e3e3; border-radius: 5px 5px 0 0; overflow: hidden; text-align: center; padding-bottom: 10px; box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2); transition: box-shadow 0.3s ease;">
+                <div style="display: flex; justify-content: center; align-items: center; height: 250px; overflow: hidden; border-radius: 5px 5px 0 0;">
+                    <img src="{% static 'assets/category-fashion.jpg' %}" alt="Fashion" style="width: 100%; height: 250px; object-fit: cover; object-position: center;">
+                </div>
+                <h3 class="category-title" style="margin: 10px 0; font-size: 16px; transition: color 0.3s ease;">Fashion</h3>
+                <a href="{% url 'category' 'Clothes' %}" class="category-btn" style="display: inline-block; background-color: #FFD814; color: #000; padding: 5px 15px; border-radius: 15px; text-decoration: none; font-size: 14px;">Explore</a>
+            </div>
+            
+            <div class="category-card" style="width: 24%; border: 1px solid #e3e3e3; border-radius: 5px 5px 0 0; overflow: hidden; text-align: center; padding-bottom: 10px; box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2); transition: box-shadow 0.3s ease;">
+                <div style="display: flex; justify-content: center; align-items: center; height: 250px; overflow: hidden; border-radius: 5px 5px 0 0;">
+                    <img src="{% static 'assets/category-electronics.jpg' %}" alt="Electronics" style="width: 100%; height: 250px; object-fit: cover; object-position: center;">
+                </div>
+                <h3 class="category-title" style="margin: 10px 0; font-size: 16px; transition: color 0.3s ease;">Electronics</h3>
+                <a href="{% url 'category' 'Mobile and Accessories' %}" class="category-btn" style="display: inline-block; background-color: #FFD814; color: #000; padding: 5px 15px; border-radius: 15px; text-decoration: none; font-size: 14px;">Explore</a>
+            </div>
+            
+            <div class="category-card" style="width: 24%; border: 1px solid #e3e3e3; border-radius: 5px 5px 0 0; overflow: hidden; text-align: center; padding-bottom: 10px; box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2); transition: box-shadow 0.3s ease;">
+                <div style="display: flex; justify-content: center; align-items: center; height: 250px; overflow: hidden; border-radius: 5px 5px 0 0;">
+                    <img src="{% static 'assets/category-home.jpg' %}" alt="Home & Kitchen" style="width: 100%; height: 250px; object-fit: cover; object-position: center;">
+                </div>
+                <h3 class="category-title" style="margin: 10px 0; font-size: 16px; transition: color 0.3s ease;">Home & Kitchen</h3>
+                <a href="{% url 'category' 'Furniture' %}" class="category-btn" style="display: inline-block; background-color: #FFD814; color: #000; padding: 5px 15px; border-radius: 15px; text-decoration: none; font-size: 14px;">Explore</a>
+            </div>
+            
+            <div class="category-card" style="width: 24%; border: 1px solid #e3e3e3; border-radius: 5px 5px 0 0; overflow: hidden; text-align: center; padding-bottom: 10px; box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2); transition: box-shadow 0.3s ease;">
+                <div style="display: flex; justify-content: center; align-items: center; height: 250px; overflow: hidden; border-radius: 5px 5px 0 0;">
+                    <img src="{% static 'assets/category-toys.jpg' %}" alt="Toys & Games" style="width: 100%; height: 250px; object-fit: cover; object-position: center;">
+                </div>
+                <h3 class="category-title" style="margin: 10px 0; font-size: 16px; transition: color 0.3s ease;">Toys & Games</h3>
+                <a href="{% url 'category' 'Toys & More' %}" class="category-btn" style="display: inline-block; background-color: #FFD814; color: #000; padding: 5px 15px; border-radius: 15px; text-decoration: none; font-size: 14px;">Explore</a>
+            </div>
+        </div>
+    </div>
+    
+    {% if not user.is_authenticated %}
+        <section>
+            <div class="personlized" style="text-align: center; background-color: #e3e6e6; padding: 30px 0; margin-top: 40px; width: 100%; border-top: 2px solid white; border-bottom: 2px solid white;">
+                <p style="font-size: 22px; margin-bottom: 0px; font-weight: 700; color: #000;">See personalized recommendations</p>
+                <div class="golden_button">
+                    <button style="width: 250px; height: 30px; border-radius: 20px; font-size: 16px; font-weight: 500; background-color: #FFD814; border: none; cursor: pointer; box-shadow: 0px 0px 10px 0px rgb(132, 132, 132);">
+                        <a href="{% url 'login' %}" style="text-decoration: none; color: black; display: block; width: 100%; height: 100%; line-height: 21px;">
+                            Sign in
+                        </a>
+                    </button>
+                </div>
+                <p style="font-size: 13px; margin-top: 5px;"> New customer? <a href="{% url 'register' %}" style="color: #007185; text-decoration: none; font-weight: 300;">Start here.</a></p>
+            </div>
+        </section>
+    {% endif %}
+
+<style>
+    .no-products {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 100%;
+    }
+
+    .no-products h2 {
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .no-products p {
+        color: #666;
+    }
+
+    .box-img {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 300px;
+    }
+
+    /* Product card styles */
+    .product-card {
+        width: calc(25% - 15px);
+        background-color: white;
+        border-radius: 0;
+        padding: 15px;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .product-card:hover {
+        box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.25);
+        transform: none;
+    }
+    
+    .product-card:hover .product-title {
+        color: #B12704;
+    }
+    
+    .product-image-container {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    
+    .product-image {
+        max-height: 180px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+    
+    .product-details {
+        text-align: center;
+    }
+    
+    .product-title {
+        font-size: 16px;
+        margin-bottom: 8px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .product-price {
+        font-weight: bold;
+        color: #000;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    .add-to-cart-form {
+        display: inline-block;
+        text-align: center;
+    }
+    
+    .add-to-cart-btn {
+        background-color: #FFD814;
+        border: none;
+        border-radius: 50px;
+        padding: 5px 15px;
+        font-size: 14px;
+        font-weight: normal;
+        cursor: pointer;
+        width: auto;
+        height: 30px;
+        line-height: 20px;
+        display: inline-block;
+        min-width: 100px;
+        transition: all 0.3s ease;
+    }
+    
+    .add-to-cart-btn:hover {
+        background-color: #F7CA00;
+    }
+    
+    .add-to-cart-btn.added {
+        background-color: #4CAF50;
+        color: white;
+        min-width: 120px;
+    }
+
+    /* Add hover effect for category cards */
+    .category-card:hover {
+        box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.25) !important;
+    }
+    
+    /* Add color change effect for category titles on hover */
+    .category-card:hover .category-title {
+        color: #B12704;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addToCartForms = document.querySelectorAll('.add-to-cart-form');
+        
+        addToCartForms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const button = this.querySelector('.add-to-cart-btn');
+                const originalText = button.textContent;
+                
+                // Change button appearance
+                button.textContent = 'Added to Cart!';
+                button.classList.add('added');
+                
+                // Send the form data via fetch API instead of form submission
+                const formData = new FormData(this);
+                
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                }).then(response => {
+                    // After 1.5 seconds, revert the button back to original state
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.classList.remove('added');
+                    }, 1500);
+                }).catch(error => {
+                    console.error('Error:', error);
+                    button.textContent = originalText;
+                    button.classList.remove('added');
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}
