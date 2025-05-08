@@ -8,9 +8,10 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/
 """
 
 import os
+from django.core.asgi import get_asgi_application  # Import ASGI application function from Django
 
-from django.core.asgi import get_asgi_application
-
+# Set the default Django settings module for the 'asgi' application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecom.settings')
 
+# Create an ASGI application instance that can be used by ASGI servers
 application = get_asgi_application()
