@@ -10,19 +10,22 @@ import uuid
 from datetime import datetime
 from django.db.models import Q
 
-
+# Home page view - displays all products or filters by search query
 def home(request):
-    search_query = request.GET.get('q', '')
+    search_query = request.GET.get('q', '')  # Get the search query from the URL
     if search_query:
+        # Filter products based on the search query (name, description, or category)
         products = Products.objects.filter(
             Q(name__icontains=search_query) |
             Q(description__icontains=search_query) |
             Q(category__name__icontains=search_query)
         ).distinct()
     else:
+        # If no search query, display all products
         products = Products.objects.all()
     return render(request, 'home.html', {'products': products, 'search_query': search_query})
 
+# User login view
 def login_user(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -46,11 +49,13 @@ def login_user(request):
     else:
         return render(request, 'login.html', {})
 
+# User logout view
 def logout_user(request):
     logout(request)
     messages.success(request, 'Successfully logged out!')
     return redirect('home')
 
+# User registration view
 def register_user(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -83,22 +88,25 @@ def register_user(request):
         
     return render(request, 'register.html')
 
+# Product description page
 def product_description(request, pk):
-    product = get_object_or_404(Products, id=pk)
-    related_products = Products.objects.filter(category=product.category).exclude(id=pk)[:4]
+    product = get_object_or_404(Products, id=pk)  # Get the product by its primary key
+    related_products = Products.objects.filter(category=product.category).exclude(id=pk)[:4]  # Get related products (excluding the current product)
     return render(request, 'product_description.html', {
         'product': product,
         'related_products': related_products
     })
 
+# Category page view - displays products under a specific category
 def category_name(request, category_name):
-    category = get_object_or_404(Category, name=category_name)
-    products = Products.objects.filter(category=category)
+    category = get_object_or_404(Category, name=category_name)  # Get the category by its name
+    products = Products.objects.filter(category=category)  # Get products under the category
     return render(request, 'category.html', {
         'category': category,
         'products': products
     })
 
+# User profile page - update user profile information
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -122,6 +130,7 @@ def profile(request):
     
     return render(request, 'profile.html')
 
+# Change password view
 @login_required
 def change_password(request):
     if request.method == 'POST':
@@ -151,6 +160,7 @@ def change_password(request):
     
     return redirect('profile')
 
+# Cart summary page
 @login_required
 def cart_summary(request):
     cart = request.session.get('cart', {})
@@ -172,6 +182,7 @@ def cart_summary(request):
         'total': total
     })
 
+# Checkout page
 @login_required
 def checkout(request):
     cart = get_or_create_cart(request)
@@ -222,16 +233,19 @@ def checkout(request):
         'user': request.user
     })
 
+# Order confirmation page
 @login_required
 def order_confirmation(request, order_number):
     order = get_object_or_404(Order, order_number=order_number, user=request.user)
     return render(request, 'order_confirmation.html', {'order': order})
 
+# Order history page
 @login_required
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by('-order_date')
     return render(request, 'order_history.html', {'orders': orders})
 
+# Search results page
 def search_results(request):
     search_query = request.GET.get('q', '')
     if search_query:

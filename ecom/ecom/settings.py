@@ -10,15 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+# Import necessary modules
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-9@q96yk20*@gyo7&4&*t7o1w+d&wo8h3w-h)ynw^t%8v$)*)j_'
@@ -26,11 +23,13 @@ SECRET_KEY = 'django-insecure-9@q96yk20*@gyo7&4&*t7o1w+d&wo8h3w-h)ynw^t%8v$)*)j_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# List of allowed hosts for the site; keep it empty in development
 ALLOWED_HOSTS = []
 
 
 # Application definition
 
+# List of installed Django apps, including custom apps like 'store' and 'cart'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,12 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #custom apps
-
+    # Custom apps
     'store',
     'cart',
 ]
 
+# Middleware settings to handle requests, security, sessions, etc.
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,42 +54,42 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Root URL configuration for the project
 ROOT_URLCONF = 'ecom.urls'
 
+# Template settings for rendering HTML templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [],  # List of directories to search for templates
+        'APP_DIRS': True,  # Enable app-level template directories
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'cart.context_processors.cart',  # Fixed typo in context processor name
+                'cart.context_processors.cart',  # Context processor for cart details
             ],
         },
     },
 ]
 
+# WSGI application used for deployment
 WSGI_APPLICATION = 'ecom.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+# Database settings
+# Using SQLite for simplicity; change to another database if needed
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',  # Use SQLite database
+        'NAME': BASE_DIR / 'db.sqlite3',  # Database file location
     }
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
+# Password validation settings for user authentication
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -107,30 +106,22 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
+# Localization settings
+LANGUAGE_CODE = 'en-us'  # Language for the application
+TIME_ZONE = 'UTC'  # Time zone for the application
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
+USE_I18N = True  # Enable internationalization
+USE_TZ = True  # Enable time zone support
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_URL = 'static/'  # URL for serving static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'static')  # Additional directories for static files
 ]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'  # URL for serving media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory for storing media files
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Default primary key field type for models
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'  # Use BigAutoField for auto-incremented fields

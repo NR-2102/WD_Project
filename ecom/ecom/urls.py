@@ -14,14 +14,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+# Importing necessary modules
 from django.contrib import admin
-from django.urls import path,include
-from .import settings
-from django.conf.urls.static import static
+from django.urls import path, include
+from . import settings  # Import the project settings
+from django.conf.urls.static import static  # To serve media files during development
 
+# Define the URL patterns
 urlpatterns = [
+    # Admin URL for Django admin interface
     path('admin/', admin.site.urls),
-    path('', include('store.urls')),
-    path('cart/', include('cart.urls')),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Route to the 'store' app's URLs
+    path('', include('store.urls')),
+
+    # Route to the 'cart' app's URLs
+    path('cart/', include('cart.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Serve media files during development
