@@ -6,99 +6,60 @@
 {% endblock %}
 
 {% block content %}
-{% if category_name == 'Clothes' %}
-<div class="fashion-header">
-    <h1>Fashion</h1>
-    <p>Explore our wide range of fashion products</p>
+<div class="category-header">
+    <h1>{{ category_name }}</h1>
+    <p>Explore our wide range of {{ category_name }} products</p>
 </div>
-{% endif %}
 
 <div class="category-container">
-    {% if category_name == 'Clothes' %}
-    <div class="fashion-section">
-        <h2 class="section-title">Fashion Categories</h2>
-        <div class="fashion-grid">
-            <div class="fashion-card">
-                <div class="image-container">
-                    <img src="{% static 'assets/sunglasses.jpg' %}" alt="Sunglasses">
+    <div class="products-section">
+        <div class="products-grid">
+            {% if products %}
+                {% for product in products %}
+                    <div class="product-card">
+                        <a href="{% url 'product' product.id %}" style="text-decoration: none; color: inherit;"> 
+                            <div class="product-image-container">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                            </div>
+                            <div class="product-details">
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <p class="product-price">₹{{ product.price_inr|floatformat:2 }}</p>
+                                <form method="POST" action="{% url 'cart_add' %}" class="add-to-cart-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                                </form>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-products">
+                    <h2>No products found in this category</h2>
+                    <p>We couldn't find any products in the {{ category_name }} category.</p>
+                    <a href="{% url 'home' %}" class="back-to-home">Back to Home</a>
                 </div>
-                <div class="category-name">Sunglasses</div>
-            </div>
-            <div class="fashion-card">
-                <div class="image-container">
-                    <img src="{% static 'assets/watches.jpg' %}" alt="Watches">
-                </div>
-                <div class="category-name">Watches</div>
-            </div>
-            <div class="fashion-card">
-                <div class="image-container">
-                    <img src="{% static 'assets/apparel.jpg' %}" alt="Apparel">
-                </div>
-                <div class="category-name">Apparel</div>
-            </div>
-            <div class="fashion-card">
-                <div class="image-container">
-                    <img src="{% static 'assets/shoes.jpg' %}" alt="Shoes">
-                </div>
-                <div class="category-name">Shoes</div>
-            </div>
-            <div class="fashion-card">
-                <div class="image-container">
-                    <img src="{% static 'assets/jewellery.jpg' %}" alt="Jewellery">
-                </div>
-                <div class="category-name">Jewellery</div>
-            </div>
-            <div class="fashion-card">
-                <div class="image-container">
-                    <img src="{% static 'assets/bags.webp' %}" alt="Bags & Luggage">
-                </div>
-                <div class="category-name">Bags & Luggage</div>
-            </div>
-            <div class="fashion-card">
-                <div class="image-container">
-                    <img src="{% static 'assets/bags.jpg' %}" alt="Handbags & Clutches">
-                </div>
-                <div class="category-name">Handbags & Clutches</div>
-            </div>
-            <div class="fashion-card">
-                <div class="image-container">
-                    <img src="{% static 'assets/kids-apparel.jpg' %}" alt="Kid's apparel">
-                </div>
-                <div class="category-name">Kid's apparel</div>
-            </div>
+            {% endif %}
         </div>
-    </div>
-
-    <!-- Added Trending in Fashion section -->
-    <div class="trending-section">
-        <h2>Trending in Fashion</h2>
-        <p>Discover the latest fashion trends and styles</p>
-        <button class="browse-all-btn">Browse All Fashion</button>
-    </div>
-    {% endif %}
-    
-    <!-- Removed the products display section -->
-    <div class="no-products" style="display: none;">
-        <p>No products found in this category.</p>
-        <a href="{% url 'home' %}" class="back-to-home">Back to Home</a>
     </div>
 </div>
 
 <style>
-    .fashion-header {
+    .category-header {
         text-align: center;
         padding: 20px 0;
         background-color: #ffffff;
         border-bottom: 1px solid #e3e3e3;
     }
     
-    .fashion-header h1 {
+    .category-header h1 {
         font-size: 32px;
         margin-bottom: 5px;
         font-weight: 700;
     }
     
-    .fashion-header p {
+    .category-header p {
         color: #555;
         margin-bottom: 0;
         font-size: 14px;
@@ -110,7 +71,7 @@
         padding: 0 20px;
     }
     
-    .fashion-section {
+    .products-section {
         background-color: white;
         padding: 20px;
         margin-bottom: 30px;
@@ -120,136 +81,179 @@
         width: 100%;
     }
     
-    .section-title {
-        font-size: 25px;
-        margin: 0 0 20px;
-        text-align: left;
-        font-weight: 600;
-        padding-left: 10px;
-        color: #333;
-    }
-    
-    .fashion-grid {
+    .products-grid {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 0 5px;
+        gap: 20px;
+        justify-content: flex-start;
     }
     
-    .fashion-card {
-        width: 24%;
-        margin-bottom: 20px;
-        border: 1px solid #e3e3e3;
+    .product-card {
+        width: calc(25% - 15px);
         background-color: white;
-        text-align: center;
-        border-radius: 2px;
-        overflow: hidden;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        border-radius: 0;
+        padding: 15px;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
         transition: box-shadow 0.3s ease;
     }
     
-    .fashion-card:hover {
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    .product-card:hover {
+        box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.25);
     }
     
-    .image-container {
-        width: 100%;
-        height: 180px;
-        overflow: hidden;
+    .product-card:hover .product-title {
+        color: #B12704;
+    }
+    
+    .product-image-container {
+        height: 200px;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding-top: 10px;
-    }
-    
-    .image-container img {
-        width: 100%;
-        height: auto;
-        max-height: 100%;
-        object-fit: contain;
-        margin-top: 5px;
-    }
-    
-    .category-name {
-        padding: 10px;
-        font-size: 14px;
-        font-weight: 600;
-        color: #333;
-    }
-    
-    .trending-section {
-        background-color: white;
-        padding: 20px;
-        text-align: center;
-        margin: 30px 0;
-        border: 1px solid #e3e3e3;
-    }
-    
-    .trending-section h2 {
-        font-size: 28px;
         margin-bottom: 10px;
-        font-weight: 600;
-        color: #333;
     }
     
-    .trending-section p {
-        color: #555;
-        margin-bottom: 15px;
+    .product-image {
+        max-height: 180px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+    
+    .product-details {
+        text-align: center;
+    }
+    
+    .product-title {
         font-size: 16px;
+        margin-bottom: 8px;
+        font-weight: 500;
+        transition: color 0.3s ease;
     }
     
-    .browse-all-btn {
+    .product-price {
+        font-weight: bold;
+        color: #000;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    .add-to-cart-form {
+        display: inline-block;
+        text-align: center;
+    }
+    
+    .add-to-cart-btn {
         background-color: #FFD814;
         border: none;
-        padding: 12px 20px;
-        border-radius: 10px;  /* Added !important to override any other styles */
+        border-radius: 50px;
+        padding: 5px 15px;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: normal;
         cursor: pointer;
-        transition: background-color 0.2s;
-        color: #000;
-        box-shadow: none;
+        width: auto;
+        height: 30px;
+        line-height: 20px;
         display: inline-block;
-        min-width: 170px;
-        height: 40px;
-        text-align: center;
-        margin: 10px auto;
-        font-family: Arial, sans-serif;
-        line-height: 16px;
+        min-width: 100px;
+        transition: all 0.3s ease;
     }
     
-    .browse-all-btn:hover {
+    .add-to-cart-btn:hover {
+        background-color: #F7CA00;
+    }
+    
+    .no-products {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 100%;
+    }
+    
+    .no-products h2 {
+        color: #333;
+        margin-bottom: 1rem;
+    }
+    
+    .no-products p {
+        color: #666;
+        margin-bottom: 1rem;
+    }
+    
+    .back-to-home {
+        display: inline-block;
+        background-color: #FFD814;
+        color: #000;
+        padding: 10px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+    
+    .back-to-home:hover {
         background-color: #F7CA00;
     }
     
     @media (max-width: 992px) {
-        .fashion-card {
-            width: 32%;
+        .product-card {
+            width: calc(33.33% - 14px);
         }
     }
     
     @media (max-width: 768px) {
-        .fashion-card {
-            width: 48%;
+        .product-card {
+            width: calc(50% - 10px);
         }
     }
     
     @media (max-width: 480px) {
-        .fashion-card {
+        .product-card {
             width: 100%;
         }
     }
-    
-    /* Hide footer elements */
-    footer, .foot-panel1, .foot-panel2, .foot-panel3, .foot-panel4 {
-        display: none !important;
-    }
-    
-    /* Hide product listings */
-    .products-grid, .product-card {
-        display: none !important;
-    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addToCartForms = document.querySelectorAll('.add-to-cart-form');
+        
+        addToCartForms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const button = this.querySelector('.add-to-cart-btn');
+                const originalText = button.textContent;
+                
+                // Change button appearance
+                button.textContent = 'Added to Cart!';
+                button.classList.add('added');
+                
+                // Send the form data via fetch API
+                const formData = new FormData(this);
+                
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                }).then(response => {
+                    // After 1.5 seconds, revert the button back to original state
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.classList.remove('added');
+                    }, 1500);
+                }).catch(error => {
+                    console.error('Error:', error);
+                    button.textContent = originalText;
+                    button.classList.remove('added');
+                });
+            });
+        });
+    });
+</script>
 {% endblock %}
 
 {% block footer %}

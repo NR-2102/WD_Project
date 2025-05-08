@@ -108,20 +108,41 @@
         .foot-panel1 button{
             border: none;
             border-radius: 0px;
-            /* width: 0px; */
             text-decoration: none;
             color: white;
-
         }
 
         .foot-panel1 button:hover{
             text-decoration: none;
-            /* transform: scale(2.04); */
             cursor: pointer;
         }
-
-
     </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body style="margin: 0; padding: 0;">
+    <!-- Message Container -->
+    <div class="message-popup-container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message-popup message-{{ message.tags }}">
+                    <div class="message-content">
+                        {% if message.tags == 'success' %}
+                            <i class="fas fa-check-circle message-icon"></i>
+                        {% elif message.tags == 'error' %}
+                            <i class="fas fa-exclamation-circle message-icon"></i>
+                        {% elif message.tags == 'warning' %}
+                            <i class="fas fa-exclamation-triangle message-icon"></i>
+                        {% else %}
+                            <i class="fas fa-info-circle message-icon"></i>
+                        {% endif %}
+                        <span>{{ message }}</span>
+                    </div>
+                    <button class="message-close">&times;</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Auto-hide messages after 5 seconds
@@ -134,11 +155,20 @@
                     }, 500);
                 }, 5000);
             });
+
+            // Add click handler for close buttons
+            document.querySelectorAll('.message-close').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const message = this.closest('.message-popup');
+                    message.style.animation = 'fadeOut 0.5s ease-out forwards';
+                    setTimeout(function() {
+                        message.style.display = 'none';
+                    }, 500);
+                });
+            });
         });
     </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-</head>
-<body style="margin: 0; padding: 0;">
+
     {% include 'navbar.html' %}
     
     {% block panel %}
@@ -220,12 +250,12 @@
                     English
                 </button>
                 <button class="footer-option" style="display: flex; align-items: center; background-color: transparent; border: 1px solid white; border-radius: 3px; padding: 8px 15px; color: white; font-size: 14px; min-width: 180px; height: 40px;">
-                    <span style="margin-right: 10px; font-size: 16px;">$</span>
-                    USD - U.S. Dollar
+                    <span style="margin-right: 10px; font-size: 16px;">₹</span>
+                    INR - Indian Rupee
                 </button>
                 <button class="footer-option" style="display: flex; align-items: center; background-color: transparent; border: 1px solid white; border-radius: 3px; padding: 8px 15px; color: white; font-size: 14px; min-width: 150px; height: 40px;">
-                    <img src="{% static 'assets/us-flag.png' %}" alt="" style="width: 20px; height: 14px; margin-right: 10px;">
-                    United States
+                    <img src="https://imgs.search.brave.com/g7b4DndEO0vcg955Gc--OxTaDUOGUmmB9XFXRPH7EF4/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/YnJpdGFubmljYS5j/b20vOTcvMTU5Ny0w/NTAtMDA4RjMwRkEv/RmxhZy1JbmRpYS5q/cGc" alt="" style="width: 20px; height: 14px; margin-right: 10px;">
+                    India
                 </button>
             </div>
         </div>

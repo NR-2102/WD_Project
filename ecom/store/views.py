@@ -91,18 +91,35 @@ def product_description(request, pk):
         'related_products': related_products
     })
 
+from django.shortcuts import render
+from .models import Category, Products
+
 def category_name(request, category_name):
-    category = get_object_or_404(Category, name=category_name)
-    products = Products.objects.filter(category=category)
-    
-    # Create a context dictionary with the category and products
+    try:
+        category = Category.objects.get(name=category_name)
+        products = Products.objects.filter(category=category)
+    except Category.DoesNotExist:
+        # If the category does not exist, pass a message to the template
+        return render(request, 'category.html', {
+            'error_message': f"Category '{category_name}' does not exist.",
+            'category_name': category_name,
+            'products': []
+        })
+
+    if not products.exists():
+        message = f"No products are available in the '{category_name}' category."
+    else:
+        message = ""
+
     context = {
         'category': category,
         'category_name': category_name,
-        'products': products
+        'products': products,
+        'message': message
     }
-    
+
     return render(request, 'category.html', context)
+
 
 @login_required
 def profile(request):

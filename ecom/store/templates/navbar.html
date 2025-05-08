@@ -342,7 +342,7 @@
     <div class="nav-search" style="display: flex; flex: 1; max-width: 720px; height: 40px; border-radius: 4px; overflow: hidden; margin: 0 10px; border: none;">
         <form method="GET" action="{% url 'search_results' %}" style="display: flex; width: 100%;">
             <div style="display: flex; align-items: center; background-color: #f3f3f3; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-right: 1px solid #cdcdcd;">
-                <select class="search-select" style="background-color: transparent; width: 50px; text-align: center; border: none; color: #555; font-size: 0.8rem; cursor: pointer; height: 40px; padding: 0 20px 0 5px;">
+                <!-- <select class="search-select" style="background-color: transparent; width: 50px; text-align: center; border: none; color: #555; font-size: 0.8rem; cursor: pointer; height: 40px; padding: 0 20px 0 5px;">
                     <option>All</option>
                     <option>Electronics</option>
                     <option>Computers</option>
@@ -358,7 +358,7 @@
                     <option>Baby</option>
                     <option>Pet Supplies</option>
                     <option>Office Products</option>
-                </select>
+                </select> -->
             </div>
             <input type="text" name="q" placeholder="Search Amazon" class="search-input" value="{{ request.GET.q }}" style="width: 100%; font-size: 1rem; border: none; padding-left: 10px; outline: none; height: 100%; background-color: white;">
             <button type="submit" class="search-icon" style="width: 45px; height: 40px; display: flex; justify-content: center; align-items: center; background-color: #FFBD59; border: none; color: #131921; cursor: pointer; border-radius: 0 4px 4px 0;">
@@ -371,7 +371,7 @@
         <div class="language-selector">
             <img src="{% static 'assets/us-flag.png' %}" alt="US Flag" class="flag-icon">
             <span>EN</span>
-            <i class="fa-solid fa-caret-down" style="font-size: 12px;"></i>
+           
         </div>
     </div>
 
@@ -405,13 +405,6 @@
         {% endif %}
     </div>
 
-    <div class="nav-return border">
-        <div style="padding-top: 12px;">
-            <span class="add-first">Returns</span>
-            <p class="nav-sec">& Orders</p>
-        </div>
-    </div>
-
     <div class="nav-cart border">
         <a href="{% url 'cart_summary' %}" class="nav-link">
             <i class="fa-solid fa-cart-shopping"></i>
@@ -424,29 +417,18 @@
         <i class="fa-solid fa-bars" style="margin-right: 5px;"></i>
         <span style="font-weight: bold;">All</span>
         <div class="panel-dropdown">
-            <a href="#">All</a>
-            <a href="#">Electronics</a>
-            <a href="#">Computers</a>
-            <a href="#">Fashion</a>
-            <a href="#">Books</a>
-            <a href="#">Toys & Games</a>
-            <a href="#">Home & Kitchen</a>
-            <a href="#">Beauty</a>
-            <a href="#">Sports</a>
-            <a href="#">Automotive</a>
-            <a href="#">Health</a>
-            <a href="#">Grocery</a>
-            <a href="#">Baby</a>
-            <a href="#">Pet Supplies</a>
-            <a href="#">Office Products</a>
+            <a href="{% url 'category' 'Clothes' %}">Fashion</a>
+            <a href="{% url 'category' 'ELECTRONICS' %}">Electronics</a>
+            <a href="{% url 'category' 'Furniture' %}">Home & Kitchen</a>
+            <a href="{% url 'category' 'Toys & Games' %}">Toys & Games</a>
         </div>
     </div>
     <div class="panel-ops" style="display: flex; gap: 20px; font-size: 0.85rem; margin-left: 100px;">
-        <p><a href="#">Today's Deals</a></p>
-        <p><a href="#">Prime Video</a></p>
-        <p><a href="#">Registry</a></p>
-        <p><a href="#">Gift Cards</a></p>
-        <p><a href="#">Customer Service</a></p>
-        <p><a href="#">Sell</a></p>
+        <p><a href="{% url 'category' 'Clothes' %}">Fashion</a></p>
+        <p><a href="{% url 'category' 'ELECTRONICS' %}">Electronics</a></p>
+        <p><a href="{% url 'category' 'Furniture' %}">Home & Kitchen</a></p>
+        <p> <a href="{% url 'category' 'Toys & Games' %}">Toys & Games</a></p>
+        <!-- <p><a href="#">Customer Service</a></p>
+        <p><a href="#">Sell</a></p> -->
     </div>
 </div>

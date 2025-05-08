@@ -21,8 +21,6 @@
         </div>
     </div>
 
-    <!-- Removed the bar section that was here -->
-
     <div id="container2" style="background-color: #ffffff !important; padding: 20px; margin-top: 20px;">
         <h2 style="margin-bottom: 15px; font-size: 27px; font-weight: 600;">Products..</h2>
         <div class="c1" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: flex-start;">
@@ -47,63 +45,6 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            
-            <!-- Smart Watch Card -->
-            <div class="product-card">
-                <a href="#" style="text-decoration: none; color: inherit;"> 
-                    <div class="product-image-container">
-                        <img src="{% static 'assets/smart-watch.jpg' %}" alt="Smart Watch" class="product-image">
-                    </div>
-                    <div class="product-details">
-                        <h3 class="product-title">Smart Watch</h3>
-                        <p class="product-price">₹2,499.00</p>
-                        <form method="POST" action="{% url 'cart_add' %}" class="add-to-cart-form">
-                            {% csrf_token %}
-                            <input type="hidden" name="product_id" value="1">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-                        </form>
-                    </div>
-                </a>
-            </div>
-            
-            <!-- Headphones Card -->
-            <div class="product-card">
-                <a href="#" style="text-decoration: none; color: inherit;"> 
-                    <div class="product-image-container">
-                        <img src="{% static 'assets/headphones.jpg' %}" alt="Headphones" class="product-image">
-                    </div>
-                    <div class="product-details">
-                        <h3 class="product-title">Headphones</h3>
-                        <p class="product-price">₹1,299.00</p>
-                        <form method="POST" action="{% url 'cart_add' %}" class="add-to-cart-form">
-                            {% csrf_token %}
-                            <input type="hidden" name="product_id" value="2">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-                        </form>
-                    </div>
-                </a>
-            </div>
-            
-            <!-- Laptop Backpack Card -->
-            <div class="product-card">
-                <a href="#" style="text-decoration: none; color: inherit;"> 
-                    <div class="product-image-container">
-                        <img src="{% static 'assets/laptop-backpack.jpg' %}" alt="Laptop Backpack" class="product-image">
-                    </div>
-                    <div class="product-details">
-                        <h3 class="product-title">Laptop Backpack</h3>
-                        <p class="product-price">₹999.00</p>
-                        <form method="POST" action="{% url 'cart_add' %}" class="add-to-cart-form">
-                            {% csrf_token %}
-                            <input type="hidden" name="product_id" value="3">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="add-to-cart-btn">Add to Cart</button>
-                        </form>
-                    </div>
-                </a>
-            </div>
             
             {% if not products %}
                 <div class="no-products">
@@ -133,7 +74,7 @@
                     <img src="{% static 'assets/category-electronics.jpg' %}" alt="Electronics" style="width: 100%; height: 250px; object-fit: cover; object-position: center;">
                 </div>
                 <h3 class="category-title" style="margin: 10px 0; font-size: 16px; transition: color 0.3s ease;">Electronics</h3>
-                <a href="{% url 'category' 'Mobile and Accessories' %}" class="category-btn" style="display: inline-block; background-color: #FFD814; color: #000; padding: 5px 15px; border-radius: 15px; text-decoration: none; font-size: 14px;">Explore</a>
+                <a href="{% url 'category' 'ELECTRONICS' %}" class="category-btn" style="display: inline-block; background-color: #FFD814; color: #000; padding: 5px 15px; border-radius: 15px; text-decoration: none; font-size: 14px;">Explore</a>
             </div>
             
             <div class="category-card" style="width: 24%; border: 1px solid #e3e3e3; border-radius: 5px 5px 0 0; overflow: hidden; text-align: center; padding-bottom: 10px; box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2); transition: box-shadow 0.3s ease;">
@@ -149,7 +90,7 @@
                     <img src="{% static 'assets/category-toys.jpg' %}" alt="Toys & Games" style="width: 100%; height: 250px; object-fit: cover; object-position: center;">
                 </div>
                 <h3 class="category-title" style="margin: 10px 0; font-size: 16px; transition: color 0.3s ease;">Toys & Games</h3>
-                <a href="{% url 'category' 'Toys & More' %}" class="category-btn" style="display: inline-block; background-color: #FFD814; color: #000; padding: 5px 15px; border-radius: 15px; text-decoration: none; font-size: 14px;">Explore</a>
+                <a href="{% url 'category' 'Toys & Games' %}" class="category-btn" style="display: inline-block; background-color: #FFD814; color: #000; padding: 5px 15px; border-radius: 15px; text-decoration: none; font-size: 14px;">Explore</a>
             </div>
         </div>
     </div>
