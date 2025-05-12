@@ -1,12 +1,12 @@
-🛒 Amazon Clone – E-Commerce Website
+🛒 Amazon Clone – E-Commerce Website...
 Welcome to Amazon Clone, a powerful, modern, and full-stack e-commerce web application inspired by the legendary Amazon experience. Built using the Django framework and enhanced by RESTful APIs, this project delivers everything from intuitive product browsing to seamless checkout — all in one smooth, scalable, and secure platform.
 
-🌟 About the Project
+🌟 About the Project...
 The Amazon Clone is not just another e-commerce website — it’s a complete, production-level shopping platform. Designed to emulate the real-world shopping flow, this project showcases a balanced fusion of frontend aesthetics and backend logic. Whether it’s user management, product cataloging, or secure ordering, every feature is developed to reflect real e-commerce standards.
 
 This project was built to push boundaries, demonstrate backend integration with APIs, and master Django's ecosystem in a practical, industry-style implementation.
 
-🚀 Key Highlights
+🚀 Key Highlights...
 Clean, responsive user interface
 
 Fully functional product catalog & cart
@@ -38,14 +38,14 @@ Build secure, user-first experiences
 
 Every feature, every line of code — built from the mindset of "how do real e-commerce giants work?"
 
-🌐 Tech Stack
+🌐 Tech Stack...
 Backend: Django, Django REST Framework
 Frontend: HTML5, CSS3, JavaScript
 Database: SQLite (dev), PostgreSQL (ready for prod)
 API: Custom-built RESTful services
 Auth: Django built-in auth system
 
-✨ Future Goals
+✨ Future Goals...
 Integrate real-time payment gateways (Stripe/PayPal)
 
 Add product reviews & star ratings
@@ -56,7 +56,7 @@ Add shipment tracking
 
 Progressive Web App support
 
-🙌 Acknowledgements
+🙌 Acknowledgements...
 Special thanks to open-source communities, Django docs, and the power of curiosity.
 
 ⭐ If You Like It...
