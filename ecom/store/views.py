@@ -112,7 +112,6 @@ def category_name(request, category_name):
 
     return render(request, 'category.html', context)
 
-
 @login_required
 def profile(request):
     if request.method == 'POST':
