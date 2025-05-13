@@ -12,16 +12,8 @@ from django.db.models import Q
 
 
 def home(request):
-    search_query = request.GET.get('q', '')
-    if search_query:
-        products = Products.objects.filter(
-            Q(name__icontains=search_query) |
-            Q(description__icontains=search_query) |
-            Q(category__name__icontains=search_query)
-        ).distinct()
-    else:
-        products = Products.objects.all()
-    return render(request, 'home.html', {'products': products, 'search_query': search_query})
+    products = Products.objects.all()
+    return render(request, 'home.html', {'products': products})
 
 def login_user(request):
     if request.method == 'POST':
